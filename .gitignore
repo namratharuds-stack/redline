@@ -1,0 +1,62 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+/dist
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files / secrets — never commit real credentials
+.env
+.env*.local
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
+!.env.example
+
+# secrets / keys
+*.key
+*.pem
+*.p12
+*.pfx
+*credentials*.json
+*.crt
+secrets/
+.secrets/
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# editor / OS
+.vscode/*
+!.vscode/extensions.json
+.idea/
+Thumbs.db
+
+# unrelated local file, not part of this project
+session-2-student-handbook.pdf
