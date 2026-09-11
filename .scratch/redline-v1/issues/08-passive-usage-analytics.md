@@ -9,4 +9,4 @@
 - [ ] Each analyzed document's type (contract/lease/freelance agreement/ToS) is recorded for aggregate tracking
 - [ ] Self-identified persona is captured where the onboarding/upload flow already asks the user, and recorded for aggregate tracking
 - [ ] No willingness-to-pay prompt, payment UI, or billing flow is added anywhere in this ticket or any ticket in this spec
-- [ ] Analytics are aggregate/passive only — no change to the user-facing analysis experience
+- [ ] Analytics are aggregate/passive only, with no change to the user-facing analysis experience

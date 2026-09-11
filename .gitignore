@@ -48,6 +48,13 @@ secrets/
 # vercel
 .vercel
 
+# impeccable: transient session state, not durable design decisions
+.impeccable/hook.cache.json
+.impeccable/questions/
+.impeccable/review/
+.impeccable/mocks/
+.impeccable/build/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

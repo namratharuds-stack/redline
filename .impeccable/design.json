@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-11T17:50:06Z",
+  "title": "Design System: Redline",
+  "extensions": {
+    "colorMeta": {
+      "ink": { "role": "primary", "displayName": "Graphite Ink", "canonical": "#2b2b28", "tonalRamp": ["#151513", "#201f1c", "#2b2b28", "#46443d", "#6b6455", "#8f887a", "#c4bcab", "#f4efe6"] },
+      "flag-low": { "role": "secondary", "displayName": "Flag Yellow", "canonical": "#e8c93a", "tonalRamp": ["#4a3c0a", "#6b5710", "#957c16", "#c0a324", "#e8c93a", "#eed869", "#f4e598", "#faf3ca"] },
+      "flag-medium": { "role": "secondary", "displayName": "Flag Orange", "canonical": "#e2793a", "tonalRamp": ["#3a1f08", "#5c3110", "#864a1c", "#b4602a", "#e2793a", "#e99a68", "#f0bb98", "#f8ddcb"] },
+      "flag-high": { "role": "secondary", "displayName": "Flag Red", "canonical": "#c23b2e", "tonalRamp": ["#2e0f0a", "#4c1811", "#7a2519", "#9e2f22", "#c23b2e", "#d16a5f", "#e19d95", "#f0cec9"] },
+      "paper": { "role": "neutral", "displayName": "Bond Paper", "canonical": "#f4efe6", "tonalRamp": ["#2b2b28", "#6b6455", "#a89e8a", "#c9c0ac", "#e5ddc9", "#f4efe6", "#f9f6ef", "#fdfcf9"] },
+      "paper-deep": { "role": "neutral", "displayName": "Deep Paper", "canonical": "#ece3cf", "tonalRamp": ["#2b2618", "#4a4127", "#726438", "#a08e4e", "#ccb96a", "#ece3cf", "#f3ecdd", "#faf6ec"] },
+      "ink-soft": { "role": "neutral", "displayName": "Soft Ink", "canonical": "#6b6455", "tonalRamp": ["#1a1813", "#332f26", "#4c473a", "#6b6455", "#8a8271", "#aca594", "#cfc9bc", "#f0ede6"] },
+      "ink-faint": { "role": "neutral", "displayName": "Faint Ink", "canonical": "#6e6656", "tonalRamp": ["#1b1912", "#353025", "#4e483a", "#6e6656", "#8c8474", "#aea795", "#d0cabd", "#f1eee6"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Hero headline only." },
+      "headline": { "displayName": "Headline", "purpose": "Section heads." },
+      "label": { "displayName": "Stamped Label", "purpose": "Flag-tab labels, severity chips, document case-file metadata. Never body prose, never a page-level kicker." }
+    },
+    "shadows": [
+      { "name": "document-lift", "value": "0 30px 60px -30px rgba(43,43,40,0.4), 0 2px 0 rgba(43,43,40,0.05)", "purpose": "The bond-paper document sheet resting above the page." },
+      { "name": "tab-rest", "value": "3px 4px 10px -4px rgba(43,43,40,0.45)", "purpose": "A flag tab at rest, jutting off the document edge." },
+      { "name": "tab-active", "value": "5px 6px 14px -4px rgba(43,43,40,0.55)", "purpose": "A flag tab on hover, translated and scaled up slightly." },
+      { "name": "card-rest", "value": "0 8px 18px -14px rgba(43,43,40,0.5)", "purpose": "Findings-list paper-strip cards at rest." },
+      { "name": "card-hover", "value": "0 12px 22px -12px rgba(43,43,40,0.55)", "purpose": "Findings-list cards on hover/focus-within." },
+      { "name": "cta-rest", "value": "0 10px 24px -12px rgba(43,43,40,0.55)", "purpose": "Primary CTA button at rest." },
+      { "name": "cta-hover", "value": "0 14px 30px -12px rgba(43,43,40,0.6)", "purpose": "Primary CTA button on hover." }
+    ],
+    "motion": [
+      { "name": "peel-in", "value": "520ms cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Staggered flag-tab peel-in on load; the system's one authored motion moment. Fully disabled under prefers-reduced-motion: reduce." }
+    ],
+    "breakpoints": [
+      { "name": "stack", "value": "900px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The CTA that routes to sign-up; ink-filled, soft-shadowed, used identically in the hero and final CTA.",
+      "html": "<a class=\"ds-btn-primary\" href=\"#\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 18 18\" fill=\"none\" aria-hidden=\"true\"><path d=\"M9 12.5V3.5M9 3.5L5.25 7.25M9 3.5L12.75 7.25\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M3.5 12.5V13.75C3.5 14.44 4.06 15 4.75 15H13.25C13.94 15 14.5 14.44 14.5 13.75V12.5\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>Try it on your document</a>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; gap: 10px; background: #2b2b28; color: #f4efe6; font-weight: 600; font-size: 1.02rem; padding: 15px 26px; border-radius: 3px; text-decoration: none; border: 1px solid #2b2b28; box-shadow: 0 10px 24px -12px rgba(43,43,40,0.55); transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease; } .ds-btn-primary:hover { background: #46443d; box-shadow: 0 14px 30px -12px rgba(43,43,40,0.6); transform: translateY(-1px); } .ds-btn-primary:focus-visible { outline: 2.5px solid #a8461f; outline-offset: 3px; border-radius: 2px; }"
+    },
+    {
+      "name": "Severity Chip",
+      "kind": "chip",
+      "refersTo": "severity-chip",
+      "description": "Pill-shaped severity indicator on findings-list rows; the sole severity marker after a border-left variant was tried and rejected.",
+      "html": "<span class=\"ds-chip-high\">high</span>",
+      "css": ".ds-chip-high { display: inline-flex; align-items: center; font-family: 'Special Elite', 'Courier New', monospace; font-size: 0.7rem; letter-spacing: 0.03em; text-transform: uppercase; padding: 5px 11px; border-radius: 999px; background: #c23b2e; color: #fdf3ea; }"
+    },
+    {
+      "name": "Flag Tab",
+      "kind": "custom",
+      "refersTo": "flag-tab",
+      "description": "Signature component: a two-part adhesive page-flag (colored tip with numeral badge, plus label plate) that overflows the document sheet's right edge and peels in on load.",
+      "html": "<div class=\"ds-tab\"><span class=\"ds-tab-tip\"><span class=\"ds-tab-badge\">1</span></span><span class=\"ds-tab-label\">Auto-renewal</span></div>",
+      "css": ".ds-tab { position: relative; display: flex; align-items: center; height: 34px; background: #fbf7ec; border-radius: 0 6px 6px 0; box-shadow: 3px 4px 10px -4px rgba(43,43,40,0.45); white-space: nowrap; } .ds-tab:hover { transform: translateX(-6px) scale(1.04); box-shadow: 5px 6px 14px -4px rgba(43,43,40,0.55); } .ds-tab-tip { flex-shrink: 0; align-self: stretch; width: 30px; background: #c23b2e; border-radius: 0 6px 6px 0; display: grid; place-items: center; } .ds-tab-badge { width: 20px; height: 20px; border-radius: 50%; background: #fbf7ec; color: #2b2b28; font-family: 'Special Elite', 'Courier New', monospace; font-size: 0.72rem; display: grid; place-items: center; } .ds-tab-label { padding: 0 12px; font-family: 'Special Elite', 'Courier New', monospace; font-size: 0.72rem; letter-spacing: 0.01em; color: #2b2b28; }"
+    },
+    {
+      "name": "Findings Row",
+      "kind": "card",
+      "refersTo": "finding-row",
+      "description": "Bordered, shadowed paper-strip card listing one flagged clause: severity chip, finding label, quoted source sentence, drafted counter-offer.",
+      "html": "<div class=\"ds-finding-row\"><span class=\"ds-chip-low\">low</span><p class=\"ds-finding-label\">IP assignment</p><p class=\"ds-finding-quote\">“Client shall own all work product created under this Agreement.”</p></div>",
+      "css": ".ds-finding-row { display: flex; gap: 24px; align-items: flex-start; padding: 22px 24px; background: #fbf8f0; border: 1px solid rgba(43,43,40,0.14); border-radius: 4px; box-shadow: 0 8px 18px -14px rgba(43,43,40,0.5); transition: box-shadow 160ms ease, transform 160ms ease; } .ds-finding-row:hover, .ds-finding-row:focus-within { box-shadow: 0 12px 22px -12px rgba(43,43,40,0.55); transform: translateY(-1px); } .ds-chip-low { font-family: 'Special Elite', 'Courier New', monospace; font-size: 0.7rem; text-transform: uppercase; padding: 5px 11px; border-radius: 999px; background: #e8c93a; color: #4a3c0a; } .ds-finding-label { font-weight: 700; font-size: 1rem; margin: 0; } .ds-finding-quote { font-size: 0.92rem; font-style: italic; color: #6b6455; margin: 0; }"
+    },
+    {
+      "name": "Document Sheet",
+      "kind": "custom",
+      "refersTo": "document-sheet",
+      "description": "Signature component: a literal bond-paper sheet with ruled-line texture and a jittered deckle edge on a separate ::before layer so overflowing flag tabs are never clipped.",
+      "html": "<div class=\"ds-document-sheet\"><p class=\"ds-doc-heading\">Freelance Design Agreement</p><p class=\"ds-doc-title\">4. Term and Termination</p></div>",
+      "css": ".ds-document-sheet { position: relative; width: 480px; max-width: 100%; box-shadow: 0 30px 60px -30px rgba(43,43,40,0.4), 0 2px 0 rgba(43,43,40,0.05); padding: 44px 40px 52px; } .ds-document-sheet::before { content: ''; position: absolute; inset: 0; z-index: 0; background: #fbf8f0; border: 1px solid rgba(43,43,40,0.14); background-image: repeating-linear-gradient(to bottom, transparent, transparent 27px, rgba(43,43,40,0.14) 28px); } .ds-doc-heading { position: relative; z-index: 1; font-family: 'Special Elite', 'Courier New', monospace; font-size: 0.72rem; letter-spacing: 0.06em; color: #6e6656; text-transform: uppercase; margin: 0 0 6px; } .ds-doc-title { position: relative; z-index: 1; font-weight: 700; font-size: 1.15rem; margin: 0; letter-spacing: -0.01em; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Sign-Here Flags",
+    "overview": "Redline's world is a closing table, not a dashboard. The document under review is rendered as literal bond paper — ruled lines, a jittered deckle edge, ink-soft type — and every risky clause gets the same plastic page-flag a closing agent sticks where you need to initial: a two-part tab (colored tip, numbered badge, label plate) that physically juts off the page's edge. The system refuses the category's clean SaaS dashboard-with-checkmarks reflex; severity lives on the paper, not in the chrome. The palette stays disciplined on purpose: bond-paper ivory and graphite ink carry the whole page, and the three-step severity spectrum (yellow/orange/red) is rationed strictly to flag tabs, severity chips, and the document's quoted-sentence highlight. It never bleeds into buttons, nav, or backgrounds. Confirmed rejection: a border-left accent pattern was tried for the findings list and rejected mid-build in favor of a full pill-shaped severity chip — the border-left device is not part of this system. Two typefaces do the whole job: Public Sans for reading copy and Special Elite — a stamped/typewriter face — reserved for flag-tab labels, severity chips, and document case-file metadata.",
+    "keyCharacteristics": [
+      "Bond-paper ivory ground with graphite ink, never a white-and-gray SaaS surface.",
+      "Severity color (yellow/orange/red) rationed to flags and quoted highlights only — chrome stays neutral.",
+      "Every flagged claim shows its exact source sentence, underlined by the severity color inline in the document.",
+      "A stamped/typewriter face marks metadata and flags; a plain sans carries reading copy.",
+      "One authored motion moment (flag-tab peel-in), gated by reduced-motion."
+    ],
+    "rules": [
+      { "name": "The Flags-Only Rule", "body": "The severity spectrum (yellow/orange/red) never touches page chrome, navigation, or buttons. It is rationed to three surfaces only: the flag tab tip, the severity chip, and the document's quoted-sentence highlight.", "section": "colors" },
+      { "name": "The Stamped-Metadata Rule", "body": "Special Elite marks anything that represents an artifact of the document or its markup (flag labels, severity chips, case-file metadata) — never body prose and never a page-level kicker/eyebrow above a real heading.", "section": "typography" },
+      { "name": "The Soft-Shadow-Only Rule", "body": "Every shadow in this system is diffuse and warm-graphite-toned. A hard offset shadow (flat black, no blur) is a neobrutalist device this world does not use.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do ration the severity spectrum (yellow/orange/red) to flag tabs, severity chips, and quoted-sentence highlights only.",
+      "Do show every flagged claim's exact source sentence inline, underlined in the matching severity color.",
+      "Do use Special Elite only for stamped/metadata elements (flag labels, chips, document letterhead-style metadata) — never for body prose or a page-level kicker.",
+      "Do keep the deckle-edge clip-path on a separate layer from any content (like flag tabs) that must overflow the document sheet's edge.",
+      "Do gate the flag-tab peel-in animation behind prefers-reduced-motion: reduce."
+    ],
+    "donts": [
+      "Don't apply severity color to page chrome, navigation, or buttons.",
+      "Don't use a border-left accent as a severity indicator on list rows — that pattern was tried and rejected in favor of the full pill-shaped severity chip.",
+      "Don't put a kicker/eyebrow above a real page heading; the letterhead text inside the depicted document artifact is a document detail, not a kicker, and is not license to add one elsewhere.",
+      "Don't introduce hard offset (neobrutalist) shadows; every shadow here is diffuse and warm-toned.",
+      "Don't add pricing, payment, testimonial, user-count, or unverifiable-statistic content to this or future marketing surfaces — a product-truth constraint (PRD.md), not a visual style choice."
+    ]
+  }
+}
