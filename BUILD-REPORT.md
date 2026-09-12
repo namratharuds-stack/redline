@@ -25,13 +25,19 @@ what's real, what's stubbed by necessity, and what you need to do by hand.
 - `npm run build` — passes.
 - `npm test` — passes (110 passed, 1 intentionally skipped — see below).
 - `npm run smoke` — exists, runs the adhesion-contract fixture through the
-  real `analyzeDocument`/`answerQuestion` (no mocks). **`OPENROUTER_API_KEY`
-  is not set in this environment**, so it printed its "skipping, here's why"
-  message and exited 0 rather than producing real model output. No live
-  model run has happened at any point in this build — every test and eval
-  passing is plumbing/logic correctness against fixtures, not evidence of
-  real analysis quality. Run `npm run smoke` yourself once real credentials
-  exist to see actual flags/summary/counter-offers/answer.
+  real `analyzeDocument`/`answerQuestion` (no mocks). **Update 2026-09-12:**
+  ran for real once `OPENROUTER_API_KEY`/`OPENROUTER_MODEL` were set
+  (`z-ai/glm-5.3-flash`). Result: all 11 planted categories were detected,
+  all 11 returned flags verified as exact substrings of the fixture text,
+  severities and counter-offers were specific to each clause's actual
+  wording (not generic boilerplate), and the Q&A sample answered correctly
+  with a citation to the relevant section. This is the first real evidence
+  in this build that the live model output — not just the plumbing — meets
+  the bar (ADR-0001 compliance, specificity, per-document severity). Note: a
+  bug was found and fixed in the smoke script itself during this run — `tsx`
+  doesn't auto-load `.env.local` the way Next.js does, so the script always
+  reported the keys missing even when they were set; fixed via Node's
+  `--env-file-if-exists` flag (see the "Fix npm run smoke" commit).
 
 ## Decisions made in your absence
 
