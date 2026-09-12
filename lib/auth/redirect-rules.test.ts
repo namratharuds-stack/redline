@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   shouldRedirectAwayFromAuthPages,
+  shouldRedirectToHome,
   shouldRedirectToLogin,
 } from "./redirect-rules";
 
@@ -57,5 +58,23 @@ describe("shouldRedirectAwayFromAuthPages", () => {
 
   it("does not redirect a signed-in visitor away from unrelated paths", () => {
     expect(shouldRedirectAwayFromAuthPages("/home", true)).toBe(false);
+  });
+});
+
+describe("shouldRedirectToHome", () => {
+  it("redirects a signed-in visitor away from the landing page at /", () => {
+    expect(shouldRedirectToHome("/", true)).toBe(true);
+  });
+
+  it("does not redirect a logged-out visitor away from the landing page", () => {
+    expect(shouldRedirectToHome("/", false)).toBe(false);
+  });
+
+  it("does not redirect a signed-in visitor at an unrelated path", () => {
+    expect(shouldRedirectToHome("/home", true)).toBe(false);
+  });
+
+  it("does not treat a lookalike path as the root", () => {
+    expect(shouldRedirectToHome("/root", true)).toBe(false);
   });
 });

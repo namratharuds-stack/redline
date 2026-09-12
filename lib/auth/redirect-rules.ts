@@ -31,3 +31,15 @@ export function shouldRedirectAwayFromAuthPages(
   if (!hasSession) return false;
   return AUTH_ONLY_PATHS.includes(pathname);
 }
+
+/**
+ * True when an already-authenticated visitor at the root path ("/") should
+ * be sent to /home instead of seeing the logged-out marketing page.
+ */
+export function shouldRedirectToHome(
+  pathname: string,
+  hasSession: boolean,
+): boolean {
+  if (!hasSession) return false;
+  return pathname === "/";
+}

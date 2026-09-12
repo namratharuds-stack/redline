@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import styles from "./landing.module.css";
 
@@ -93,27 +94,28 @@ export default function LandingPage() {
   return (
     <main className={styles.page}>
       <nav className={styles.nav}>
-        <a href="/" className={styles.wordmark}>
+        <Link href="/" className={styles.wordmark}>
           Red<span>line</span>
-        </a>
-        <a href="/sign-in" className={styles.signIn}>
+        </Link>
+        <Link href="/login" className={styles.signIn}>
           Sign in
-        </a>
+        </Link>
       </nav>
 
       <section className={styles.hero}>
         <div className={styles.heroCopy}>
           <h1>Every risky clause, flagged in your contract&rsquo;s own words.</h1>
           <p>
-            Upload a contract, lease, or freelance agreement. Redline flags
-            what&rsquo;s risky, quotes the exact sentence it came from, and
-            drafts a counter-offer for each one.
+            Upload a contract, lease, or freelance agreement. Redline opens
+            with a plain-English summary, flags what&rsquo;s risky, quotes
+            the exact sentence it came from, and drafts a counter-offer for
+            each one.
           </p>
           <div className={styles.ctaRow}>
-            <a href="/sign-up" className={styles.ctaPrimary}>
+            <Link href="/signup" className={styles.ctaPrimary}>
               <UploadIcon />
               Try it on your document
-            </a>
+            </Link>
             <span className={styles.ctaNote}>
               Sign up, then upload your first document.
             </span>
@@ -261,6 +263,11 @@ export default function LandingPage() {
             </li>
           </ul>
         </div>
+
+        <p className={styles.libraryNote}>
+          Every document you upload is saved to your library, so you can
+          find past flags and counter-offers again without re-uploading.
+        </p>
       </section>
 
       <section className={styles.section}>
@@ -297,10 +304,10 @@ export default function LandingPage() {
       <section className={styles.finalCta}>
         <h2>Try it on your document.</h2>
         <div className={styles.ctaRow} style={{ justifyContent: "center" }}>
-          <a href="/sign-up" className={styles.ctaPrimary}>
+          <Link href="/signup" className={styles.ctaPrimary}>
             <UploadIcon />
             Try it on your document
-          </a>
+          </Link>
         </div>
       </section>
 

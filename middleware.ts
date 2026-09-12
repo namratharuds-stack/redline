@@ -2,6 +2,7 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import {
   shouldRedirectAwayFromAuthPages,
+  shouldRedirectToHome,
   shouldRedirectToLogin,
 } from "./lib/auth/redirect-rules";
 
@@ -52,6 +53,12 @@ export async function middleware(request: NextRequest) {
   }
 
   if (shouldRedirectAwayFromAuthPages(pathname, hasSession)) {
+    const homeUrl = request.nextUrl.clone();
+    homeUrl.pathname = "/home";
+    return NextResponse.redirect(homeUrl);
+  }
+
+  if (shouldRedirectToHome(pathname, hasSession)) {
     const homeUrl = request.nextUrl.clone();
     homeUrl.pathname = "/home";
     return NextResponse.redirect(homeUrl);
