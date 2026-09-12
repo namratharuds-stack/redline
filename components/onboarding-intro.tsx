@@ -9,13 +9,20 @@
 // styling here) rather than inventing a new visual pattern for this panel.
 import Link from "next/link";
 import styles from "@/app/home/home-client.module.css";
+import { PERSONA_OPTIONS, type Persona } from "@/lib/onboarding/persona";
 
 export function OnboardingIntro({
   onRunSample,
   onSkip,
+  selectedPersona,
+  onSelectPersona,
 }: {
   onRunSample: (documentType: "freelance_agreement" | "lease") => void;
   onSkip: () => void;
+  /** The persona the user has already picked, if any. Purely optional —
+   * nothing else in this panel waits on it. See lib/onboarding/persona.ts. */
+  selectedPersona: Persona | null;
+  onSelectPersona: (persona: Persona) => void;
 }) {
   return (
     <div className={styles.uploadCard}>
@@ -46,6 +53,36 @@ export function OnboardingIntro({
         >
           or see a sample lease instead
         </button>
+      </div>
+
+      <div
+        className={styles.personaSection}
+        role="group"
+        aria-label="Optional: which of these sounds like you?"
+      >
+        <p className={styles.personaPrompt}>
+          Optional: which of these sounds like you?
+        </p>
+        <div className={styles.personaOptions}>
+          {PERSONA_OPTIONS.map((option) => {
+            const isSelected = selectedPersona === option.value;
+            return (
+              <button
+                key={option.value}
+                type="button"
+                className={
+                  isSelected
+                    ? `${styles.personaButton} ${styles.personaButtonSelected}`
+                    : styles.personaButton
+                }
+                aria-pressed={isSelected}
+                onClick={() => onSelectPersona(option.value)}
+              >
+                {option.label}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       <p className={styles.onboardingFootnote}>

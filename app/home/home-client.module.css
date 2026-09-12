@@ -91,6 +91,55 @@
   text-decoration-color: currentColor;
 }
 
+/* Optional persona pick (ticket 08), sitting between the sample-document
+   buttons above and the skip-to-upload footnote below. Pill buttons reuse
+   DESIGN.md's rounded.pill token; unlike .primaryButton, an unselected pill
+   stays neutral so the row doesn't read as another required step. */
+.personaSection {
+  margin: 4px 0 20px;
+}
+
+.personaPrompt {
+  color: var(--color-ink-soft);
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin: 0 0 10px;
+}
+
+.personaOptions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.personaButton {
+  font: inherit;
+  font-size: 0.85rem;
+  color: var(--color-ink);
+  background: var(--color-paper-deep);
+  border: 1px solid var(--color-paper-line);
+  border-radius: 999px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.personaButton:hover {
+  border-color: var(--color-ink-soft);
+}
+
+.personaButton:focus-visible {
+  outline: 2.5px solid var(--focus-ring);
+  outline-offset: 1px;
+}
+
+.personaButtonSelected {
+  background: var(--color-ink);
+  color: var(--color-paper);
+  border-color: var(--color-ink);
+}
+
 .onboardingFootnote {
   color: var(--color-ink-soft);
   font-size: 0.9rem;

@@ -8,6 +8,7 @@ import {
 } from "@/lib/document-parsing/parse-document";
 import { isSubmittableQuestion } from "@/lib/qa/validation";
 import { DOCUMENT_TYPE_KEYS, getDocumentTypeLabel } from "@/lib/documents/document-types";
+import { isValidPersona, type Persona } from "@/lib/onboarding/persona";
 import { AnalysisResult } from "@/components/analysis-result";
 import { OnboardingIntro } from "@/components/onboarding-intro";
 import { createClient } from "@/lib/supabase/client";
@@ -41,6 +42,7 @@ export default function HomeClient({
   const [qaPairs, setQaPairs] = useState<QaPair[]>([]);
   const [showOnboarding, setShowOnboarding] = useState(initialShowOnboarding);
   const [onboardingSkipped, setOnboardingSkipped] = useState(false);
+  const [selectedPersona, setSelectedPersona] = useState<Persona | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   /**
@@ -116,6 +118,31 @@ export default function HomeClient({
       // No profiles table, no retry queue for this one boolean — worst
       // case the walkthrough shows again next visit, which is the safe
       // failure direction (see ticket 07: never skip a real first-timer).
+    }
+  }
+
+  /**
+   * Records the user's self-identified persona (ticket 08), asked as an
+   * optional question in the same onboarding panel that offers the sample
+   * documents (components/onboarding-intro.tsx). Entirely passive: nothing
+   * in the onboarding or upload flow waits on this, there's no "submit"
+   * step, and a user can run a sample or upload their own document without
+   * ever picking one. Mirrors markOnboarded's write pattern (a single field
+   * on Supabase Auth's user_metadata, best-effort, no retry queue) rather
+   * than a new analytics table.
+   */
+  async function handleSelectPersona(persona: Persona) {
+    if (!isValidPersona(persona)) {
+      return;
+    }
+    setSelectedPersona(persona);
+    try {
+      const supabase = createClient();
+      await supabase.auth.updateUser({ data: { persona } });
+    } catch {
+      // Best-effort, same as markOnboarded: this is passive analytics, not
+      // a step the user is blocked on, so a failed write just means this
+      // one document's persona pick doesn't make it into the aggregate.
     }
   }
 
@@ -268,6 +295,8 @@ export default function HomeClient({
         <OnboardingIntro
           onRunSample={handleRunSample}
           onSkip={() => setOnboardingSkipped(true)}
+          selectedPersona={selectedPersona}
+          onSelectPersona={handleSelectPersona}
         />
       )}
 
