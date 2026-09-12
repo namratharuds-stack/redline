@@ -176,9 +176,9 @@ export default function LandingPage() {
         <div className={styles.sectionHead}>
           <h2>Every flag, in the contract&rsquo;s own words.</h2>
           <p>
-            No paraphrasing, no guessing. Each flag quotes the exact sentence
-            it came from, so you can check it against your own document
-            before you act on it.
+            Each flag quotes the exact sentence it came from, without
+            paraphrasing or guessing, so you can check it against your own
+            document before you act on it.
           </p>
         </div>
 
@@ -219,12 +219,19 @@ export default function LandingPage() {
 
         <div className={styles.twoUp}>
           <div className={styles.qaBox}>
+            <span className={styles.qaBoxTab}>Q&amp;A</span>
             <div className={styles.qaExchange}>
               <p className={styles.qaQuestion}>
                 Can I cancel before the renewal date?
               </p>
               <p className={styles.qaAnswer}>
-                Yes. You must give <strong>written notice of non-renewal</strong>{" "}
+                Yes. You must give{" "}
+                <span
+                  className={styles.qaHighlight}
+                  style={{ ["--tab-color" as string]: SEVERITY_COLOR.high }}
+                >
+                  written notice of non-renewal
+                </span>{" "}
                 at least 90 days before the current term ends (Section 4.2).
               </p>
             </div>
@@ -242,12 +249,14 @@ export default function LandingPage() {
           <ul className={styles.redlinesList}>
             {REDLINES.map((r) => (
               <li key={r}>
-                {r}
+                <span className={styles.redlineSwatch} aria-hidden="true" />
+                <span className={styles.redlineName}>{r}</span>
                 <span className={styles.redlineTag}>starter</span>
               </li>
             ))}
             <li data-custom="true">
-              + Add your own
+              <span className={styles.redlineSwatch} aria-hidden="true" />
+              <span className={styles.redlineName}>+ Add your own</span>
               <span className={styles.redlineTag}>custom</span>
             </li>
           </ul>
@@ -256,9 +265,9 @@ export default function LandingPage() {
 
       <section className={styles.section}>
         <div className={styles.boundaryGrid}>
-          <p className={styles.boundaryStatement}>
+          <h2 className={styles.boundaryStatement}>
             Redline flags risk. It doesn&rsquo;t tell you what to do about it.
-          </p>
+          </h2>
           <ul className={styles.boundaryList}>
             <li>
               <strong>No verdict on whether to sign.</strong> You decide;
