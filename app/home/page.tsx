@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { shouldShowOnboarding } from "@/lib/onboarding/should-show-onboarding";
 import HomeClient from "./home-client";
 import styles from "./home.module.css";
 
@@ -13,6 +14,8 @@ export default async function HomePage() {
   if (!user) {
     redirect("/login");
   }
+
+  const initialShowOnboarding = shouldShowOnboarding(user.user_metadata);
 
   return (
     <div className={styles.page}>
@@ -44,7 +47,7 @@ export default async function HomePage() {
       </main>
 
       <section className={styles.clientSection}>
-        <HomeClient />
+        <HomeClient initialShowOnboarding={initialShowOnboarding} />
       </section>
     </div>
   );

@@ -9,6 +9,10 @@ import {
 import { isSubmittableQuestion } from "@/lib/qa/validation";
 import { DOCUMENT_TYPE_KEYS, getDocumentTypeLabel } from "@/lib/documents/document-types";
 import { AnalysisResult } from "@/components/analysis-result";
+import { OnboardingIntro } from "@/components/onboarding-intro";
+import { createClient } from "@/lib/supabase/client";
+import { FREELANCE_CONTRACT_SAMPLE } from "@/lib/samples/freelance-contract-sample";
+import { LEASE_SAMPLE } from "@/lib/samples/lease-sample";
 import type { AnalyzeResult, RedLine } from "@/lib/analysis-engine/types";
 
 type Status = "idle" | "parsing" | "analyzing" | "done" | "error";
@@ -21,7 +25,11 @@ type QaPair = {
   pending: boolean;
 };
 
-export default function HomeClient() {
+export default function HomeClient({
+  initialShowOnboarding,
+}: {
+  initialShowOnboarding: boolean;
+}) {
   const [status, setStatus] = useState<Status>("idle");
   const [fileName, setFileName] = useState("");
   const [documentType, setDocumentType] = useState("");
@@ -31,36 +39,24 @@ export default function HomeClient() {
   const [saveFailed, setSaveFailed] = useState(false);
   const [questionInput, setQuestionInput] = useState("");
   const [qaPairs, setQaPairs] = useState<QaPair[]>([]);
+  const [showOnboarding, setShowOnboarding] = useState(initialShowOnboarding);
+  const [onboardingSkipped, setOnboardingSkipped] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  async function handleFileChange(event: ChangeEvent<HTMLInputElement>) {
-    const file = event.target.files?.[0];
-    if (!file || !documentType) {
-      return;
-    }
-
-    setFileName(file.name);
+  /**
+   * Runs the real analysis flow (load red lines, POST /home/analyze,
+   * render results, save to the library in the background) against
+   * whatever documentText is already in hand. Shared by the file-upload
+   * path (after extractDocumentText) and the onboarding sample path
+   * (which already has plain-text sample content, so it skips parsing
+   * entirely) — there is exactly one place that talks to /home/analyze.
+   */
+  async function runAnalysis(text: string, docType: string) {
+    setDocumentType(docType);
+    setDocumentText(text);
     setResult(null);
     setErrorMessage("");
     setSaveFailed(false);
-    setDocumentText("");
-    setStatus("parsing");
-
-    let text: string;
-    try {
-      text = await extractDocumentText(file);
-    } catch (error) {
-      setStatus("error");
-      setErrorMessage(
-        error instanceof Error
-          ? error.message
-          : "We couldn't read that file. Please try a different one."
-      );
-      resetFileInput();
-      return;
-    }
-
-    setDocumentText(text);
     setStatus("analyzing");
 
     try {
@@ -93,7 +89,11 @@ export default function HomeClient() {
       // Fire-and-forget: save to the library in the background. This must
       // never delay or block the results already shown above — a failure
       // here surfaces as a small note, not a lost analysis.
-      void saveToLibrary(documentType, text, data);
+      void saveToLibrary(docType, text, data);
+      // A completed analysis — sample or real — is what "onboarded" means
+      // (see lib/onboarding/should-show-onboarding.ts). Best-effort: if
+      // this write fails, the walkthrough just shows again next visit.
+      void markOnboarded();
     } catch {
       setStatus("error");
       setErrorMessage(
@@ -102,6 +102,64 @@ export default function HomeClient() {
     } finally {
       resetFileInput();
     }
+  }
+
+  async function markOnboarded() {
+    if (!showOnboarding) {
+      return;
+    }
+    setShowOnboarding(false);
+    try {
+      const supabase = createClient();
+      await supabase.auth.updateUser({ data: { onboarded: true } });
+    } catch {
+      // No profiles table, no retry queue for this one boolean — worst
+      // case the walkthrough shows again next visit, which is the safe
+      // failure direction (see ticket 07: never skip a real first-timer).
+    }
+  }
+
+  async function handleFileChange(event: ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    if (!file || !documentType) {
+      return;
+    }
+
+    setFileName(file.name);
+    setResult(null);
+    setErrorMessage("");
+    setSaveFailed(false);
+    setDocumentText("");
+    setStatus("parsing");
+
+    let text: string;
+    try {
+      text = await extractDocumentText(file);
+    } catch (error) {
+      setStatus("error");
+      setErrorMessage(
+        error instanceof Error
+          ? error.message
+          : "We couldn't read that file. Please try a different one."
+      );
+      resetFileInput();
+      return;
+    }
+
+    await runAnalysis(text, documentType);
+  }
+
+  function handleRunSample(sampleDocumentType: "freelance_agreement" | "lease") {
+    const sampleText =
+      sampleDocumentType === "freelance_agreement"
+        ? FREELANCE_CONTRACT_SAMPLE
+        : LEASE_SAMPLE;
+    setFileName(
+      sampleDocumentType === "freelance_agreement"
+        ? "Sample freelance contract"
+        : "Sample lease"
+    );
+    void runAnalysis(sampleText, sampleDocumentType);
   }
 
   function resetFileInput() {
@@ -206,7 +264,14 @@ export default function HomeClient() {
 
   return (
     <div className={styles.wrapper}>
-      {status === "idle" && (
+      {status === "idle" && showOnboarding && !onboardingSkipped && (
+        <OnboardingIntro
+          onRunSample={handleRunSample}
+          onSkip={() => setOnboardingSkipped(true)}
+        />
+      )}
+
+      {status === "idle" && (!showOnboarding || onboardingSkipped) && (
         <div className={styles.uploadCard}>
           <label className={styles.uploadLabel} htmlFor="document-upload">
             Upload a document to review

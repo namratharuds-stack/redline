@@ -60,6 +60,63 @@
   outline-offset: 1px;
 }
 
+.onboardingActions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin: 8px 0 20px;
+}
+
+/* Text-only secondary action, matching DESIGN.md's "no ghost/bordered
+   button variant" rule — same underline-on-hover treatment as
+   app/home/home.module.css's .navLink, sized to sit legibly next to the
+   primary button rather than reading as a minor afterthought. */
+.onboardingSecondaryLink {
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--color-ink);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 0.2em;
+  transition: text-decoration-color 0.15s ease;
+}
+
+.onboardingSecondaryLink:hover {
+  text-decoration-color: currentColor;
+}
+
+.onboardingFootnote {
+  color: var(--color-ink-soft);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin: 0;
+  max-width: 60ch;
+}
+
+.onboardingInlineLink {
+  font: inherit;
+  font-weight: 600;
+  color: var(--color-ink);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 0.2em;
+  transition: text-decoration-color 0.15s ease;
+}
+
+.onboardingInlineLink:hover {
+  text-decoration-color: currentColor;
+}
+
 .workingState {
   display: flex;
   flex-direction: column;
