@@ -1,24 +1,25 @@
 :root {
-  --color-paper: #f4efe6;
-  --color-paper-deep: #ece3cf;
-  --color-paper-line: rgba(43, 43, 40, 0.14);
-  --color-ink: #2b2b28;
-  --color-ink-soft: #6b6455;
-  --color-ink-faint: #6e6656;
+  --color-paper: #f1f1ee;
+  --color-paper-deep: #fdfdfc;
+  --color-paper-line: rgba(17, 19, 24, 0.12);
+  --color-ink: #111318;
+  --color-ink-soft: #55585f;
+  --color-ink-faint: #8b8f97;
 
-  --flag-low: #e8c93a;
-  --flag-low-ink: #4a3c0a;
-  --flag-medium: #e2793a;
-  --flag-medium-ink: #3a1f08;
-  --flag-high: #c23b2e;
-  --flag-high-ink: #fdf3ea;
+  --flag-low: #b8860b;
+  --flag-low-ink: #fbf1d9;
+  --flag-medium: #c65a1e;
+  --flag-medium-ink: #fbe4d4;
+  --flag-high: #b0271b;
+  --flag-high-ink: #fbdcd8;
 
-  --badge-bg: #fbf7ec;
+  --badge-bg: #eceef1;
 
-  --focus-ring: #a8461f;
+  --focus-ring: #2f6fb0;
 
-  --font-body: var(--font-body), "Public Sans", system-ui, sans-serif;
-  --font-stamp: var(--font-stamp), "Special Elite", "Courier New", monospace;
+  --font-body: var(--font-ui), "Work Sans", system-ui, sans-serif;
+  --font-stamp: var(--font-ui), "Work Sans", system-ui, sans-serif;
+  --font-manuscript: var(--font-manuscript), "Source Serif 4", serif;
 }
 
 * {

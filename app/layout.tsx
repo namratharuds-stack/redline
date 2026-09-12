@@ -1,17 +1,18 @@
 import type { Metadata } from "next";
-import { Public_Sans, Special_Elite } from "next/font/google";
+import { Source_Serif_4, Work_Sans } from "next/font/google";
 import "./globals.css";
 
-const publicSans = Public_Sans({
+// The whole app's two type families: Work Sans for UI chrome and reading
+// copy, Source Serif 4 wherever an actual document's text is rendered.
+const sourceSerif = Source_Serif_4({
   subsets: ["latin"],
-  variable: "--font-body",
+  variable: "--font-manuscript",
   display: "swap",
 });
 
-const specialElite = Special_Elite({
+const workSans = Work_Sans({
   subsets: ["latin"],
-  weight: "400",
-  variable: "--font-stamp",
+  variable: "--font-ui",
   display: "swap",
 });
 
@@ -28,7 +29,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${publicSans.variable} ${specialElite.variable}`}>
+      <body className={`${sourceSerif.variable} ${workSans.variable}`}>
         {children}
       </body>
     </html>

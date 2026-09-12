@@ -1,7 +1,15 @@
 .page {
+  --accent-tint: #f0f6fc;
+
+  color: var(--color-ink);
+  font-family: var(--font-body);
   max-width: 1440px;
   margin: 0 auto;
   padding: 0 clamp(20px, 4vw, 64px);
+}
+
+.docFont {
+  font-family: var(--font-manuscript);
 }
 
 /* ---------- Nav ---------- */
@@ -14,10 +22,11 @@
 }
 
 .wordmark {
-  font-family: var(--font-stamp);
+  font-weight: 800;
   font-size: 1.05rem;
   letter-spacing: -0.01em;
   text-decoration: none;
+  color: var(--color-ink);
   display: inline-flex;
   align-items: baseline;
   gap: 2px;
@@ -45,28 +54,31 @@
 
 .hero {
   display: grid;
-  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
-  gap: clamp(32px, 5vw, 72px);
-  align-items: center;
-  padding: clamp(24px, 5vw, 56px) 0 clamp(48px, 7vw, 96px);
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: clamp(28px, 5vw, 56px);
+  align-items: start;
+  padding: clamp(8px, 2vw, 20px) 0 clamp(48px, 7vw, 96px);
+}
+
+.hero > * {
+  min-width: 0;
 }
 
 .heroCopy h1 {
-  font-family: var(--font-body);
   font-weight: 800;
-  font-size: clamp(2.2rem, 4.4vw, 3.4rem);
-  line-height: 1.06;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.1;
   letter-spacing: -0.02em;
-  margin: 0 0 22px;
+  margin: 0 0 20px;
   max-width: 15ch;
 }
 
 .heroCopy p {
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   line-height: 1.6;
   color: var(--color-ink-soft);
-  max-width: 42ch;
-  margin: 0 0 32px;
+  max-width: 40ch;
+  margin: 0 0 28px;
 }
 
 .ctaRow {
@@ -74,7 +86,7 @@
   align-items: center;
   gap: 20px;
   flex-wrap: wrap;
-  margin-bottom: 44px;
+  margin-bottom: 8px;
 }
 
 .ctaPrimary {
@@ -82,20 +94,17 @@
   align-items: center;
   gap: 10px;
   background: var(--color-ink);
-  color: var(--color-paper);
+  color: #fff;
   font-weight: 600;
   font-size: 1.02rem;
-  padding: 15px 26px;
-  border-radius: 3px;
+  padding: 14px 24px;
+  border-radius: 4px;
   text-decoration: none;
-  border: 1px solid var(--color-ink);
-  box-shadow: 0 10px 24px -12px rgba(43, 43, 40, 0.55);
-  transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+  transition: transform 160ms ease, background 160ms ease;
 }
 
 .ctaPrimary:hover {
-  background: #46443d;
-  box-shadow: 0 14px 30px -12px rgba(43, 43, 40, 0.6);
+  background: #2a2c33;
   transform: translateY(-1px);
 }
 
@@ -109,200 +118,210 @@
   max-width: 22ch;
 }
 
-.previewRow {
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  padding: 16px 18px;
+/* ---------- Editor window ---------- */
+
+.editorWindow {
   background: var(--color-paper-deep);
   border: 1px solid var(--color-paper-line);
-  border-radius: 4px;
-  max-width: 46ch;
+  border-radius: 8px;
+  box-shadow: 0 24px 48px -28px rgba(17, 19, 24, 0.28);
+  overflow: hidden;
 }
 
-.previewChip {
-  flex-shrink: 0;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  font-family: var(--font-stamp);
-  font-size: 0.85rem;
-}
-
-.previewText p {
-  margin: 0;
-  font-size: 0.92rem;
-  color: var(--color-ink-soft);
-}
-
-.previewText strong {
-  display: block;
-  font-size: 0.95rem;
-  color: var(--color-ink);
-  font-weight: 700;
-  margin-bottom: 3px;
-}
-
-.previewQuote {
-  display: block;
-  margin-top: 6px;
-  font-style: italic;
-  color: var(--color-ink-soft);
-  font-size: 0.85rem;
-}
-
-/* ---------- Hero document ---------- */
-
-.heroDocument {
-  position: relative;
+.editorChrome {
+  background: var(--badge-bg);
+  border-bottom: 1px solid var(--color-paper-line);
+  padding: 10px 16px;
   display: flex;
-  justify-content: center;
-  container-type: inline-size;
-  container-name: heroDoc;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 12px;
 }
 
-.documentSheet {
-  position: relative;
-  width: min(100%, 480px);
-  box-shadow: 0 30px 60px -30px rgba(43, 43, 40, 0.4),
-    0 2px 0 rgba(43, 43, 40, 0.05);
-  padding: 44px 40px 52px;
+.editorFileName {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-ink);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.documentSheet::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  background: #fbf8f0;
-  border: 1px solid var(--color-paper-line);
-  background-image: repeating-linear-gradient(
-    to bottom,
-    transparent,
-    transparent 27px,
-    var(--color-paper-line) 28px
-  );
-  clip-path: polygon(
-    0% 0%, 6% 1.3%, 12% 0.3%, 18% 1.2%, 24% 0.2%, 30% 1.3%, 36% 0.3%,
-    42% 1.1%, 48% 0.2%, 54% 1.3%, 60% 0.3%, 66% 1.2%, 72% 0.2%, 78% 1.3%,
-    84% 0.3%, 90% 1.1%, 96% 0.2%, 100% 0%,
-    100% 100%,
-    96% 98.8%, 90% 99.8%, 84% 98.9%, 78% 99.7%, 72% 98.9%, 66% 99.8%,
-    60% 98.9%, 54% 99.7%, 48% 98.9%, 42% 99.8%, 36% 98.9%, 30% 99.7%,
-    24% 98.9%, 18% 99.8%, 12% 98.9%, 6% 99.7%, 0% 100%
-  );
-}
-
-.documentSheet > * {
-  position: relative;
-  z-index: 1;
-}
-
-.docHeading {
-  font-family: var(--font-stamp);
-  font-size: 0.72rem;
-  letter-spacing: 0.06em;
+.editorFileMeta {
+  font-size: 0.78rem;
   color: var(--color-ink-faint);
-  margin: 0 0 6px;
+}
+
+.suggestingPill {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.72rem;
+  font-weight: 700;
   text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--focus-ring);
+  background: var(--accent-tint);
+  padding: 5px 10px;
+  border-radius: 999px;
+}
+
+.suggestingDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--focus-ring);
+}
+
+.editorToolbar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--color-paper-line);
+  font-size: 0.78rem;
+  color: var(--color-ink-faint);
+}
+
+.editorToolbar span {
+  font-weight: 700;
+}
+
+.editorBody {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 200px;
+  gap: 0;
+}
+
+.docCanvas {
+  padding: clamp(24px, 4vw, 40px) clamp(20px, 3vw, 36px);
+}
+
+.docLetterhead {
+  font-size: 0.78rem;
+  color: var(--color-ink-faint);
+  margin: 0 0 4px;
 }
 
 .docTitle {
   font-weight: 700;
-  font-size: 1.15rem;
-  margin: 0 0 26px;
-  letter-spacing: -0.01em;
-}
-
-.docLine {
-  height: 11px;
-  border-radius: 2px;
-  background: rgba(43, 43, 40, 0.1);
-  margin-bottom: 17px;
-}
-
-.docLine[data-w="full"] {
-  width: 100%;
-}
-.docLine[data-w="wide"] {
-  width: 88%;
-}
-.docLine[data-w="mid"] {
-  width: 63%;
+  font-size: 1.1rem;
+  margin: 0 0 20px;
 }
 
 .docParagraph {
-  margin-bottom: 24px;
+  margin: 0 0 20px;
+  line-height: 1.7;
+  font-size: 0.98rem;
   position: relative;
 }
 
-.flaggedSentence {
-  background: color-mix(in srgb, var(--tab-color, var(--flag-low)) 22%, transparent);
-  border-radius: 2px;
-  box-shadow: inset 0 -2px 0 var(--tab-color, var(--flag-low));
-  padding: 1px 2px;
+.del {
+  text-decoration: line-through;
+  text-decoration-thickness: 1.4px;
 }
 
-.tab {
-  position: absolute;
-  top: 50%;
-  left: 100%;
-  margin-top: -17px;
-  margin-left: 14px;
-  height: 34px;
+.del[data-sev="low"] {
+  color: var(--flag-low);
+}
+.del[data-sev="medium"] {
+  color: var(--flag-medium);
+}
+.del[data-sev="high"] {
+  color: var(--flag-high);
+}
+
+.ins {
+  text-decoration: underline;
+  text-decoration-thickness: 1.4px;
+  font-weight: 600;
+}
+
+.ins[data-sev="low"] {
+  color: var(--flag-low);
+}
+.ins[data-sev="medium"] {
+  color: var(--flag-medium);
+}
+.ins[data-sev="high"] {
+  color: var(--flag-high);
+}
+
+.commentRail {
+  border-left: 1px solid var(--color-paper-line);
+  background: var(--color-paper);
+  padding: clamp(24px, 4vw, 40px) 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.commentCard {
+  background: var(--color-paper-deep);
+  border: 1px solid var(--color-paper-line);
+  border-radius: 3px;
+  padding: 10px 12px;
+  font-size: 0.82rem;
+  opacity: 0;
+  transform: translateX(6px);
+  transition: opacity 420ms ease, transform 420ms ease;
+}
+
+.editorWindow[data-mounted="true"] .commentCard {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.commentAvatar {
   display: flex;
   align-items: center;
-  background: var(--badge-bg);
-  border-radius: 0 6px 6px 0;
-  box-shadow: 3px 4px 10px -4px rgba(43, 43, 40, 0.45);
-  opacity: 0;
-  transform: translateX(-18px);
-  animation: peelIn 520ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  cursor: default;
-  white-space: nowrap;
+  gap: 6px;
+  font-weight: 700;
+  color: var(--color-ink);
+  margin-bottom: 4px;
 }
 
-.tabTip {
-  flex-shrink: 0;
-  align-self: stretch;
-  width: 30px;
-  background: var(--tab-color, var(--flag-low));
-  border-radius: 0 6px 6px 0;
-  display: grid;
-  place-items: center;
-}
-
-.tabBadge {
-  width: 20px;
-  height: 20px;
+.commentAvatar span {
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
-  background: var(--badge-bg);
-  color: var(--color-ink);
-  font-family: var(--font-stamp);
-  font-size: 0.72rem;
-  display: grid;
-  place-items: center;
+  background: var(--color-ink);
+  color: #fff;
+  font-size: 0.6rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.tabLabel {
-  padding: 0 12px;
-  font-family: var(--font-stamp);
-  font-size: 0.72rem;
-  letter-spacing: 0.01em;
-  color: var(--color-ink);
+.commentSevDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-left: auto;
 }
 
-.tab.active {
-  transform: translateX(-6px) scale(1.04);
-  box-shadow: 5px 6px 14px -4px rgba(43, 43, 40, 0.55);
+.commentCard[data-sev="low"] .commentSevDot {
+  background: var(--flag-low);
+}
+.commentCard[data-sev="medium"] .commentSevDot {
+  background: var(--flag-medium);
+}
+.commentCard[data-sev="high"] .commentSevDot {
+  background: var(--flag-high);
 }
 
-@keyframes peelIn {
-  to {
+.commentLabel {
+  color: var(--color-ink-soft);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .commentCard {
+    transition: none;
     opacity: 1;
-    transform: translateX(0);
+    transform: none;
   }
 }
 
@@ -319,91 +338,102 @@
 }
 
 .sectionHead h2 {
-  font-size: clamp(1.6rem, 2.6vw, 2.1rem);
+  font-size: clamp(1.5rem, 2.4vw, 2rem);
   font-weight: 800;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.01em;
   margin: 0 0 14px;
-  line-height: 1.18;
+  line-height: 1.2;
 }
 
 .sectionHead p {
-  font-size: 1.05rem;
+  font-size: 1.02rem;
   color: var(--color-ink-soft);
   margin: 0;
   max-width: 68ch;
 }
 
-/* ---------- Findings (flag index) ---------- */
+/* ---------- Revision history (findings) ---------- */
 
-.findingsList {
+.revisionList {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
 }
 
-.findingRow {
+.revisionRow {
   display: grid;
   grid-template-columns: 88px 1.1fr 1.3fr 1fr;
   gap: 24px;
   align-items: start;
-  padding: 22px 24px;
-  background: #fbf8f0;
+  padding: 20px 22px;
+  background: var(--color-paper-deep);
   border: 1px solid var(--color-paper-line);
-  border-radius: 4px;
-  box-shadow: 0 8px 18px -14px rgba(43, 43, 40, 0.5);
-  transition: box-shadow 160ms ease, transform 160ms ease;
+  border-radius: 5px;
 }
 
-.findingRow:hover,
-.findingRow:focus-within {
-  box-shadow: 0 12px 22px -12px rgba(43, 43, 40, 0.55);
-  transform: translateY(-1px);
-}
-
-.severityChip {
+.sevTag {
   display: inline-flex;
   align-items: center;
-  font-family: var(--font-stamp);
   font-size: 0.7rem;
+  font-weight: 700;
   letter-spacing: 0.03em;
   text-transform: uppercase;
   padding: 5px 11px;
-  border-radius: 999px;
-  background: var(--tab-color);
-  color: var(--tab-ink-color, var(--color-ink));
+  border-radius: 3px;
 }
 
-.findingLabel {
+.sevTag[data-sev="low"] {
+  background: var(--flag-low-ink);
+  color: var(--flag-low);
+}
+.sevTag[data-sev="medium"] {
+  background: var(--flag-medium-ink);
+  color: var(--flag-medium);
+}
+.sevTag[data-sev="high"] {
+  background: var(--flag-high-ink);
+  color: var(--flag-high);
+}
+
+.revisionLabel {
   font-weight: 700;
   font-size: 1rem;
   margin: 0 0 6px;
 }
 
-.findingQuote {
+.revisionQuote {
   margin: 0;
   font-size: 0.92rem;
-  font-style: italic;
   color: var(--color-ink-soft);
-  border-left: none;
 }
 
-.findingCounter {
+.revisionQuote span {
+  text-decoration: line-through;
+}
+
+.revisionCounter {
   margin: 0;
   font-size: 0.92rem;
   color: var(--color-ink);
 }
 
-.findingCounter span {
-  display: block;
-  font-family: var(--font-stamp);
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--color-ink-faint);
-  margin-bottom: 4px;
+.revisionCounter em {
+  font-style: normal;
+  text-decoration: underline;
 }
 
-/* ---------- Two-up layout (Q&A / red-lines) ---------- */
+.revisionCounter span {
+  display: block;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-ink-faint);
+  margin-bottom: 4px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* ---------- Two-up: comment thread + suggestions settings ---------- */
 
 .twoUp {
   display: grid;
@@ -411,75 +441,69 @@
   gap: clamp(28px, 5vw, 64px);
 }
 
-.qaBox {
-  position: relative;
-  background: #fbf8f0;
+.thread {
+  background: var(--color-paper-deep);
   border: 1px solid var(--color-paper-line);
-  border-radius: 4px;
-  padding: 30px 28px 26px;
-  background-image: repeating-linear-gradient(
-    to bottom,
-    transparent,
-    transparent 26px,
-    var(--color-paper-line) 27px
-  );
+  border-radius: 6px;
+  padding: 22px 22px 18px;
 }
 
-.qaBoxTab {
-  position: absolute;
-  top: -13px;
-  left: 24px;
-  padding: 4px 12px;
-  background: var(--color-ink);
-  color: var(--color-paper);
-  font-family: var(--font-stamp);
-  font-size: 0.68rem;
+.threadHeader {
+  font-size: 0.72rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  border-radius: 3px;
-  box-shadow: 2px 3px 8px -3px rgba(43, 43, 40, 0.5);
+  letter-spacing: 0.06em;
+  color: var(--color-ink-faint);
+  margin-bottom: 14px;
+}
+
+.bubbleQ {
+  background: var(--badge-bg);
+  border-radius: 10px 10px 10px 2px;
+  padding: 10px 14px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 8px;
+  max-width: 90%;
+}
+
+.bubbleA {
+  border-radius: 10px 10px 2px 10px;
+  padding: 10px 14px;
+  font-size: 0.93rem;
+  color: var(--color-ink-soft);
+  max-width: 92%;
+  margin-left: auto;
+  background: var(--accent-tint);
 }
 
 .qaHighlight {
-  background: color-mix(in srgb, var(--tab-color, var(--flag-high)) 22%, transparent);
-  box-shadow: inset 0 -2px 0 var(--tab-color, var(--flag-high));
-  border-radius: 2px;
-  padding: 1px 2px;
-  font-weight: 700;
   color: var(--color-ink);
-}
-
-.qaExchange + .qaExchange {
-  margin-top: 20px;
-  padding-top: 20px;
-  border-top: 1px dashed var(--color-paper-line);
-}
-
-.qaQuestion {
   font-weight: 700;
-  margin: 0 0 8px;
-}
-
-.qaAnswer {
-  margin: 0;
-  color: var(--color-ink-soft);
-  font-size: 0.95rem;
+  text-decoration: underline;
+  text-decoration-color: var(--flag-high);
 }
 
 .qaUnsupported {
   display: inline-block;
-  margin-top: 10px;
-  font-family: var(--font-stamp);
-  font-size: 0.7rem;
+  margin-top: 8px;
+  font-size: 0.68rem;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: var(--flag-medium-ink);
-  background: color-mix(in srgb, var(--flag-medium) 30%, var(--color-paper));
+  font-weight: 700;
+  color: var(--flag-medium);
+  background: var(--flag-medium-ink);
   padding: 4px 8px;
   border-radius: 3px;
 }
 
-.redlinesList {
+.exchange + .exchange {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px dashed var(--color-paper-line);
+}
+
+.settingsPanel {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -488,39 +512,50 @@
   gap: 2px;
 }
 
-.redlinesList li {
+.settingsPanel li {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 13px 4px;
+  gap: 12px;
+  padding: 12px 4px;
   border-bottom: 1px solid var(--color-paper-line);
   font-size: 0.96rem;
 }
 
-.redlineSwatch {
+.checkbox {
   flex-shrink: 0;
   width: 16px;
-  height: 12px;
+  height: 16px;
+  border-radius: 3px;
   background: var(--color-ink);
-  border-radius: 0 3px 3px 0;
+  position: relative;
 }
 
-.redlinesList li[data-custom="true"] {
-  color: var(--color-ink-soft);
+.checkbox::after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 1px;
+  width: 5px;
+  height: 9px;
+  border-right: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  transform: rotate(45deg);
 }
 
-.redlinesList li[data-custom="true"] .redlineSwatch {
+.settingsPanel li[data-custom="true"] .checkbox {
   background: transparent;
   border: 1.5px dashed var(--color-ink-faint);
-  border-radius: 3px;
 }
 
-.redlineName {
+.settingsPanel li[data-custom="true"] .checkbox::after {
+  display: none;
+}
+
+.settingName {
   flex: 1;
 }
 
-.redlineTag {
-  font-family: var(--font-stamp);
+.settingTag {
   font-size: 0.68rem;
   text-transform: uppercase;
   letter-spacing: 0.04em;
@@ -534,7 +569,7 @@
   max-width: 68ch;
 }
 
-/* ---------- Boundary (trust) ---------- */
+/* ---------- Boundary ---------- */
 
 .boundaryGrid {
   display: grid;
@@ -544,7 +579,7 @@
 }
 
 .boundaryStatement {
-  font-size: clamp(1.3rem, 2.2vw, 1.65rem);
+  font-size: clamp(1.25rem, 2vw, 1.55rem);
   font-weight: 700;
   line-height: 1.35;
   letter-spacing: -0.01em;
@@ -562,9 +597,9 @@
 }
 
 .boundaryList li {
-  padding-left: 22px;
+  padding-left: 20px;
   position: relative;
-  font-size: 0.98rem;
+  font-size: 0.96rem;
   color: var(--color-ink-soft);
 }
 
@@ -572,10 +607,10 @@
   content: "";
   position: absolute;
   left: 0;
-  top: 9px;
+  top: 8px;
   width: 8px;
   height: 8px;
-  background: var(--flag-high);
+  background: var(--color-ink-faint);
   border-radius: 1px;
 }
 
@@ -591,12 +626,12 @@
 }
 
 .finalCta h2 {
-  font-size: clamp(1.8rem, 3.4vw, 2.6rem);
+  font-size: clamp(1.7rem, 3.2vw, 2.4rem);
   font-weight: 800;
   letter-spacing: -0.02em;
   max-width: 20ch;
   margin: 0 auto 28px;
-  line-height: 1.15;
+  line-height: 1.2;
 }
 
 /* ---------- Footer ---------- */
@@ -620,15 +655,22 @@
     grid-template-columns: 1fr;
   }
 
-  .heroDocument {
-    order: -1;
+  .editorBody {
+    grid-template-columns: 1fr;
   }
 
-  .documentSheet {
-    padding: 32px 26px 40px;
+  .commentRail {
+    border-left: none;
+    border-top: 1px solid var(--color-paper-line);
+    flex-direction: row;
+    overflow-x: auto;
   }
 
-  .findingRow {
+  .commentCard {
+    min-width: 200px;
+  }
+
+  .revisionRow {
     grid-template-columns: 1fr;
     gap: 8px;
   }
@@ -636,32 +678,5 @@
   .twoUp,
   .boundaryGrid {
     grid-template-columns: 1fr;
-  }
-
-}
-
-@container heroDoc (max-width: 620px) {
-  .tab {
-    margin-left: 8px;
-    height: 28px;
-    border-radius: 50%;
-    overflow: hidden;
-  }
-
-  .tabTip {
-    width: 28px;
-    border-radius: 50%;
-  }
-
-  .tabLabel {
-    display: none;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .tab {
-    animation: none;
-    opacity: 1;
-    transform: none;
   }
 }

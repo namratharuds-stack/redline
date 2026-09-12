@@ -1,59 +1,47 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./landing.module.css";
 
 type Severity = "low" | "medium" | "high";
-
-const SEVERITY_COLOR: Record<Severity, string> = {
-  low: "var(--flag-low)",
-  medium: "var(--flag-medium)",
-  high: "var(--flag-high)",
-};
-
-const SEVERITY_INK: Record<Severity, string> = {
-  low: "var(--flag-low-ink)",
-  medium: "var(--flag-medium-ink)",
-  high: "var(--flag-high-ink)",
-};
 
 const FINDINGS: {
   n: number;
   severity: Severity;
   label: string;
-  quote: string;
-  counter: string;
-  docWidths: ("full" | "wide" | "mid")[];
+  original: string;
+  suggested: string;
+  comment: string;
 }[] = [
   {
     n: 1,
     severity: "high",
     label: "Auto-renewal",
-    quote:
-      "This Agreement renews automatically for successive one-year terms unless either party provides written notice of non-renewal at least ninety (90) days prior to the renewal date.",
-    counter:
-      "Shorten the non-renewal notice window to 30 days, or require written opt-in before any renewal.",
-    docWidths: ["full", "full", "wide"],
+    original:
+      "renews automatically for successive one-year terms unless either party provides written notice of non-renewal at least ninety (90) days prior to the renewal date",
+    suggested:
+      "renews only if both parties confirm in writing at least 30 days before the current term ends",
+    comment: "90-day opt-out window. Most people miss it and get another year.",
   },
   {
     n: 2,
     severity: "medium",
     label: "Scope creep",
-    quote:
-      "Contractor shall make revisions as requested by Client until Client is fully satisfied.",
-    counter:
-      "Cap revisions at two rounds per deliverable; additional rounds billed at the hourly rate.",
-    docWidths: ["full", "wide"],
+    original:
+      "Contractor shall make revisions as requested by Client until Client is fully satisfied",
+    suggested:
+      "Contractor shall provide up to two rounds of revisions per deliverable",
+    comment: "“Until satisfied” has no ceiling. Cap it.",
   },
   {
     n: 3,
     severity: "low",
     label: "IP assignment",
-    quote: "Client shall own all work product created under this Agreement.",
-    counter:
-      "Add a clause confirming assignment transfers only upon receipt of full and final payment.",
-    docWidths: ["wide", "mid"],
+    original: "Client shall own all work product created under this Agreement",
+    suggested:
+      "Client shall own all work product upon receipt of full and final payment",
+    comment: "Assignment should be tied to payment clearing, not just delivery.",
   },
 ];
 
@@ -89,7 +77,12 @@ function UploadIcon() {
 }
 
 export default function LandingPage() {
-  const [activeTab, setActiveTab] = useState<number | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setMounted(true));
+    return () => cancelAnimationFrame(id);
+  }, []);
 
   return (
     <main className={styles.page}>
@@ -104,105 +97,105 @@ export default function LandingPage() {
 
       <section className={styles.hero}>
         <div className={styles.heroCopy}>
-          <h1>Every risky clause, flagged in your contract&rsquo;s own words.</h1>
+          <h1>Redline reads the contract you were about to sign.</h1>
           <p>
-            Upload a contract, lease, or freelance agreement. Redline opens
-            with a plain-English summary, flags what&rsquo;s risky, quotes
-            the exact sentence it came from, and drafts a counter-offer for
-            each one.
+            Upload a contract, lease, or freelance agreement. Redline marks
+            up the risky clauses the way you&rsquo;d mark up a document
+            yourself: strikethrough on the problem, a suggested replacement,
+            and a comment explaining why.
           </p>
           <div className={styles.ctaRow}>
             <Link href="/signup" className={styles.ctaPrimary}>
               <UploadIcon />
               Try it on your document
             </Link>
-            <span className={styles.ctaNote}>
-              Sign up, then upload your first document.
-            </span>
           </div>
-          <div className={styles.previewRow}>
-            <span
-              className={styles.previewChip}
-              style={{ background: SEVERITY_COLOR.high, color: "var(--flag-high-ink)" }}
-            >
-              1
-            </span>
-            <div className={styles.previewText}>
-              <strong>Auto-renewal</strong>
-              <p>Renews automatically unless you cancel 90 days out.</p>
-              <span className={styles.previewQuote}>
-                &ldquo;&hellip;renews automatically for successive one-year
-                terms&hellip;&rdquo;
-              </span>
-            </div>
-          </div>
+          <span className={styles.ctaNote}>
+            Sign up, then upload your first document.
+          </span>
         </div>
 
-        <div className={styles.heroDocument}>
-          <div className={styles.documentSheet}>
-            <p className={styles.docHeading}>Freelance Design Agreement</p>
-            <p className={styles.docTitle}>4. Term and Termination</p>
-
-            {FINDINGS.map((f) => (
-              <div className={styles.docParagraph} key={f.n}>
-                <span
-                  className={styles.flaggedSentence}
-                  style={{ ["--tab-color" as string]: SEVERITY_COLOR[f.severity] }}
-                >
-                  {f.quote}
-                </span>{" "}
-                {f.docWidths.map((w, i) => (
-                  <span key={i} className={styles.docLine} data-w={w} />
-                ))}
-                <div
-                  className={`${styles.tab}${activeTab === f.n ? " " + styles.active : ""}`}
-                  style={{
-                    ["--tab-color" as string]: SEVERITY_COLOR[f.severity],
-                    animationDelay: `${300 + f.n * 220}ms`,
-                  }}
-                  onMouseEnter={() => setActiveTab(f.n)}
-                  onMouseLeave={() => setActiveTab(null)}
-                >
-                  <span className={styles.tabTip}>
-                    <span className={styles.tabBadge}>{f.n}</span>
+        <div className={styles.editorWindow} data-mounted={mounted}>
+          <div className={styles.editorChrome}>
+            <span className={styles.editorFileName}>
+              Freelance Design Agreement.docx
+            </span>
+            <span className={styles.editorFileMeta}>
+              &middot; sample document
+            </span>
+            <span className={styles.suggestingPill}>
+              <span className={styles.suggestingDot} aria-hidden="true" />
+              Suggesting
+            </span>
+          </div>
+          <div className={styles.editorToolbar}>
+            <span>B</span>
+            <span style={{ fontStyle: "italic" }}>I</span>
+            <span style={{ textDecoration: "underline" }}>U</span>
+            <span aria-hidden="true">&middot;</span>
+            <span>3 suggestions</span>
+          </div>
+          <div className={styles.editorBody}>
+            <div className={`${styles.docCanvas} ${styles.docFont}`}>
+              <p className={styles.docLetterhead}>FREELANCE DESIGN AGREEMENT</p>
+              <p className={styles.docTitle}>4. Term and Termination</p>
+              {FINDINGS.map((f) => (
+                <p className={styles.docParagraph} key={f.n}>
+                  This Agreement{" "}
+                  <span className={styles.del} data-sev={f.severity}>
+                    {f.original}
+                  </span>{" "}
+                  <span className={styles.ins} data-sev={f.severity}>
+                    {f.suggested}
                   </span>
-                  <span className={styles.tabLabel}>{f.label}</span>
+                  .
+                </p>
+              ))}
+            </div>
+            <div className={styles.commentRail}>
+              {FINDINGS.map((f) => (
+                <div
+                  className={styles.commentCard}
+                  data-sev={f.severity}
+                  key={f.n}
+                >
+                  <div className={styles.commentAvatar}>
+                    <span>R</span> Redline
+                    <span className={styles.commentSevDot} aria-hidden="true" />
+                  </div>
+                  <p className={styles.commentLabel}>{f.comment}</p>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
       <section className={styles.section}>
         <div className={styles.sectionHead}>
-          <h2>Every flag, in the contract&rsquo;s own words.</h2>
+          <h2>Every suggested edit, next to what it replaces.</h2>
           <p>
-            Each flag quotes the exact sentence it came from, without
-            paraphrasing or guessing, so you can check it against your own
-            document before you act on it.
+            Nothing is paraphrased. The struck-through text is the
+            document&rsquo;s own words; the suggested replacement is
+            Redline&rsquo;s counter-offer for that exact clause.
           </p>
         </div>
 
-        <div className={styles.findingsList}>
+        <div className={styles.revisionList}>
           {FINDINGS.map((f) => (
-            <div className={styles.findingRow} key={f.n}>
-              <span
-                className={styles.severityChip}
-                style={{
-                  ["--tab-color" as string]: SEVERITY_COLOR[f.severity],
-                  ["--tab-ink-color" as string]: SEVERITY_INK[f.severity],
-                }}
-              >
+            <div className={styles.revisionRow} key={f.n}>
+              <span className={styles.sevTag} data-sev={f.severity}>
                 {f.severity}
               </span>
               <div>
-                <p className={styles.findingLabel}>{f.label}</p>
+                <p className={styles.revisionLabel}>{f.label}</p>
               </div>
-              <p className={styles.findingQuote}>&ldquo;{f.quote}&rdquo;</p>
-              <p className={styles.findingCounter}>
-                <span>Counter-offer</span>
-                {f.counter}
+              <p className={styles.revisionQuote}>
+                <span>{f.original}</span>
+              </p>
+              <p className={styles.revisionCounter}>
+                <span>Suggested replacement</span>
+                <em>{f.suggested}</em>
               </p>
             </div>
           ))}
@@ -214,59 +207,56 @@ export default function LandingPage() {
           <h2>Ask it anything. Tell it what you&rsquo;re watching for.</h2>
           <p>
             A question box that answers only from your document, and a
-            red-lines list you control, so the flags reflect what matters to
+            red-lines list you control, so Redline flags what matters to
             you.
           </p>
         </div>
 
         <div className={styles.twoUp}>
-          <div className={styles.qaBox}>
-            <span className={styles.qaBoxTab}>Q&amp;A</span>
-            <div className={styles.qaExchange}>
-              <p className={styles.qaQuestion}>
+          <div className={styles.thread}>
+            <p className={styles.threadHeader}>Comments</p>
+            <div className={styles.exchange}>
+              <p className={styles.bubbleQ}>
                 Can I cancel before the renewal date?
               </p>
-              <p className={styles.qaAnswer}>
+              <p className={styles.bubbleA}>
                 Yes. You must give{" "}
-                <span
-                  className={styles.qaHighlight}
-                  style={{ ["--tab-color" as string]: SEVERITY_COLOR.high }}
-                >
+                <span className={styles.qaHighlight}>
                   written notice of non-renewal
                 </span>{" "}
                 at least 90 days before the current term ends (Section 4.2).
               </p>
             </div>
-            <div className={styles.qaExchange}>
-              <p className={styles.qaQuestion}>
+            <div className={styles.exchange}>
+              <p className={styles.bubbleQ}>
                 Does this contract mention a non-compete?
               </p>
-              <p className={styles.qaAnswer}>
+              <p className={styles.bubbleA}>
                 This document doesn&rsquo;t address that.
               </p>
               <span className={styles.qaUnsupported}>Not in this document</span>
             </div>
           </div>
 
-          <ul className={styles.redlinesList}>
+          <ul className={styles.settingsPanel}>
             {REDLINES.map((r) => (
               <li key={r}>
-                <span className={styles.redlineSwatch} aria-hidden="true" />
-                <span className={styles.redlineName}>{r}</span>
-                <span className={styles.redlineTag}>starter</span>
+                <span className={styles.checkbox} aria-hidden="true" />
+                <span className={styles.settingName}>{r}</span>
+                <span className={styles.settingTag}>starter</span>
               </li>
             ))}
             <li data-custom="true">
-              <span className={styles.redlineSwatch} aria-hidden="true" />
-              <span className={styles.redlineName}>+ Add your own</span>
-              <span className={styles.redlineTag}>custom</span>
+              <span className={styles.checkbox} aria-hidden="true" />
+              <span className={styles.settingName}>+ Add your own</span>
+              <span className={styles.settingTag}>custom</span>
             </li>
           </ul>
         </div>
 
         <p className={styles.libraryNote}>
           Every document you upload is saved to your library, so you can
-          find past flags and counter-offers again without re-uploading.
+          find past mark-ups again without re-uploading.
         </p>
       </section>
 
