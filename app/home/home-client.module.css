@@ -209,6 +209,95 @@
   margin: 0;
 }
 
+.qaCard {
+  background: #fbf8f0;
+  border: 1px solid var(--color-paper-line);
+  border-radius: 4px;
+  padding: 24px;
+  box-shadow: 0 8px 18px -14px rgba(43, 43, 40, 0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.qaForm {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.qaInput {
+  flex: 1 1 240px;
+  font: inherit;
+  color: var(--color-ink);
+  background: var(--color-paper-deep);
+  border: 1px solid var(--color-paper-line);
+  border-radius: 4px;
+  padding: 12px 14px;
+}
+
+.qaInput:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.qaHint {
+  color: var(--color-ink-faint);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.qaList {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 12px 0 0;
+  border-top: 1px solid var(--color-paper-line);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.qaRow {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.qaQuestion {
+  color: var(--color-ink);
+  font-weight: 700;
+  font-size: 0.98rem;
+  margin: 0;
+}
+
+.qaStatus {
+  font-family: var(--font-stamp);
+  font-size: 0.8rem;
+  letter-spacing: 0.03em;
+  color: var(--color-ink-soft);
+  margin: 0;
+}
+
+.qaAnswer {
+  color: var(--color-ink-soft);
+  font-size: 0.98rem;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.qaError {
+  color: var(--color-ink);
+  background: var(--color-paper-deep);
+  border: 1px solid var(--color-paper-line);
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  margin: 0;
+  width: fit-content;
+}
+
 @media (min-width: 900px) {
   .flagRowTop {
     display: grid;
