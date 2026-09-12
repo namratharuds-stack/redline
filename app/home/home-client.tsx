@@ -6,9 +6,10 @@ import styles from "./home-client.module.css";
 import {
   extractDocumentText,
 } from "@/lib/document-parsing/parse-document";
-import { getCategoryLabel } from "@/lib/red-lines/category-labels";
 import { isSubmittableQuestion } from "@/lib/qa/validation";
-import type { AnalyzeResult, Flag, RedLine } from "@/lib/analysis-engine/types";
+import { DOCUMENT_TYPE_KEYS, getDocumentTypeLabel } from "@/lib/documents/document-types";
+import { AnalysisResult } from "@/components/analysis-result";
+import type { AnalyzeResult, RedLine } from "@/lib/analysis-engine/types";
 
 type Status = "idle" | "parsing" | "analyzing" | "done" | "error";
 
@@ -20,31 +21,28 @@ type QaPair = {
   pending: boolean;
 };
 
-const SEVERITY_LABEL: Record<Flag["severity"], string> = {
-  low: "Low",
-  medium: "Medium",
-  high: "High",
-};
-
 export default function HomeClient() {
   const [status, setStatus] = useState<Status>("idle");
   const [fileName, setFileName] = useState("");
+  const [documentType, setDocumentType] = useState("");
   const [documentText, setDocumentText] = useState("");
   const [result, setResult] = useState<AnalyzeResult | null>(null);
   const [errorMessage, setErrorMessage] = useState("");
+  const [saveFailed, setSaveFailed] = useState(false);
   const [questionInput, setQuestionInput] = useState("");
   const [qaPairs, setQaPairs] = useState<QaPair[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   async function handleFileChange(event: ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
-    if (!file) {
+    if (!file || !documentType) {
       return;
     }
 
     setFileName(file.name);
     setResult(null);
     setErrorMessage("");
+    setSaveFailed(false);
     setDocumentText("");
     setStatus("parsing");
 
@@ -92,6 +90,10 @@ export default function HomeClient() {
       const data = (await response.json()) as AnalyzeResult;
       setResult(data);
       setStatus("done");
+      // Fire-and-forget: save to the library in the background. This must
+      // never delay or block the results already shown above — a failure
+      // here surfaces as a small note, not a lost analysis.
+      void saveToLibrary(documentType, text, data);
     } catch {
       setStatus("error");
       setErrorMessage(
@@ -108,12 +110,43 @@ export default function HomeClient() {
     }
   }
 
+  /**
+   * Saves a completed analysis to the user's library. Never touches
+   * `status`/`result` — a failed save shows a small note (`saveFailed`)
+   * without taking away the analysis already on screen.
+   */
+  async function saveToLibrary(
+    savedDocumentType: string,
+    savedDocumentText: string,
+    savedResult: AnalyzeResult
+  ) {
+    try {
+      const response = await fetch("/api/documents", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          documentType: savedDocumentType,
+          documentText: savedDocumentText,
+          summary: savedResult.summary,
+          flags: savedResult.flags,
+        }),
+      });
+      if (!response.ok) {
+        setSaveFailed(true);
+      }
+    } catch {
+      setSaveFailed(true);
+    }
+  }
+
   function handleStartOver() {
     setStatus("idle");
     setFileName("");
+    setDocumentType("");
     setDocumentText("");
     setResult(null);
     setErrorMessage("");
+    setSaveFailed(false);
     setQuestionInput("");
     setQaPairs([]);
   }
@@ -182,6 +215,26 @@ export default function HomeClient() {
             Accepts .txt and .pdf files. Only the text is sent for review;
             the file itself stays on your device.
           </p>
+
+          <label className={styles.fieldLabel} htmlFor="document-type">
+            Document type
+          </label>
+          <select
+            id="document-type"
+            className={styles.select}
+            value={documentType}
+            onChange={(event) => setDocumentType(event.target.value)}
+          >
+            <option value="" disabled>
+              Select a document type…
+            </option>
+            {DOCUMENT_TYPE_KEYS.map((key) => (
+              <option key={key} value={key}>
+                {getDocumentTypeLabel(key)}
+              </option>
+            ))}
+          </select>
+
           <input
             ref={fileInputRef}
             id="document-upload"
@@ -189,7 +242,13 @@ export default function HomeClient() {
             type="file"
             accept=".txt,.pdf"
             onChange={handleFileChange}
+            disabled={!documentType}
           />
+          {!documentType && (
+            <p className={styles.uploadHint}>
+              Choose a document type to enable upload.
+            </p>
+          )}
         </div>
       )}
 
@@ -221,21 +280,12 @@ export default function HomeClient() {
 
       {status === "done" && result && (
         <div className={styles.resultState}>
-          <div className={styles.summaryCard}>
-            <p className={styles.cardLabel}>Summary</p>
-            <p className={styles.summaryText}>{result.summary}</p>
-          </div>
+          <AnalysisResult result={result} />
 
-          {result.flags.length === 0 ? (
-            <div className={styles.noFlagsCard}>
-              <p>No flags found for your red lines.</p>
-            </div>
-          ) : (
-            <ul className={styles.flagsList}>
-              {result.flags.map((flag, index) => (
-                <FlagRow key={`${flag.category}-${index}`} flag={flag} />
-              ))}
-            </ul>
+          {saveFailed && (
+            <p className={styles.saveFailedNote}>
+              Couldn&rsquo;t save this to your library.
+            </p>
           )}
 
           <QaBox
@@ -315,36 +365,6 @@ function QaRow({ pair }: { pair: QaPair }) {
       {pair.pending && <p className={styles.qaStatus}>Thinking…</p>}
       {pair.error && <p className={styles.qaError}>{pair.error}</p>}
       {pair.answer && <p className={styles.qaAnswer}>{pair.answer}</p>}
-    </li>
-  );
-}
-
-function FlagRow({ flag }: { flag: Flag }) {
-  return (
-    <li className={styles.flagRow}>
-      <div className={styles.flagRowTop}>
-        <span
-          className={styles.severityChip}
-          style={{
-            background: `var(--flag-${flag.severity})`,
-            color: `var(--flag-${flag.severity}-ink)`,
-          }}
-        >
-          {SEVERITY_LABEL[flag.severity]}
-        </span>
-        <span className={styles.flagLabel}>{getCategoryLabel(flag.category)}</span>
-      </div>
-
-      <blockquote className={styles.sourceQuote}>
-        &ldquo;{flag.sourceSentence}&rdquo;
-      </blockquote>
-
-      <p className={styles.flagExplanation}>{flag.explanation}</p>
-
-      <div className={styles.counterOffer}>
-        <p className={styles.cardLabel}>Counter-offer</p>
-        <p className={styles.counterOfferText}>{flag.counterOffer}</p>
-      </div>
     </li>
   );
 }

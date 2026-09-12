@@ -24,6 +24,9 @@ export default async function HomePage() {
           <Link href="/home/red-lines" className={styles.navLink}>
             Manage your red lines
           </Link>
+          <Link href="/home/library" className={styles.navLink}>
+            Library
+          </Link>
           <form className={styles.signOutForm} action="/auth/sign-out" method="post">
             <button type="submit" className={styles.signOutButton}>
               Log out
