@@ -19,6 +19,7 @@ Upload a contract, lease, freelance agreement, or ToS. The app returns:
 ## Non-negotiable behavior
 - Every risk flag must show the exact sentence it came from. A flag without a shown source is a bug, not a style choice.
 - Summaries, flags, counter-offers, and Q&A answers may only state what the document's text supports. If the text doesn't say it, the product doesn't say it either.
+- Any copy the user actually reads — landing page, UI labels, error messages, empty states — must be run through the humanizer skill before it's committed. Copy that sounds like a model wrote it is a defect, not a matter of taste.
 
 ## Out of scope for this version: do not build, even if it looks like the obvious next step
 - Payments/billing
