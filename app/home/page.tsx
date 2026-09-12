@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import HomeClient from "./home-client";
@@ -19,11 +20,16 @@ export default async function HomePage() {
         <span className={styles.wordmark}>
           Red<span>line</span>
         </span>
-        <form className={styles.signOutForm} action="/auth/sign-out" method="post">
-          <button type="submit" className={styles.signOutButton}>
-            Log out
-          </button>
-        </form>
+        <div className={styles.navActions}>
+          <Link href="/home/red-lines" className={styles.navLink}>
+            Manage your red lines
+          </Link>
+          <form className={styles.signOutForm} action="/auth/sign-out" method="post">
+            <button type="submit" className={styles.signOutButton}>
+              Log out
+            </button>
+          </form>
+        </div>
       </nav>
 
       <main className={styles.main}>

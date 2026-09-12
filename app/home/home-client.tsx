@@ -6,9 +6,8 @@ import styles from "./home-client.module.css";
 import {
   extractDocumentText,
 } from "@/lib/document-parsing/parse-document";
-import { STARTER_RED_LINES } from "@/lib/red-lines/starter-red-lines";
 import { getCategoryLabel } from "@/lib/red-lines/category-labels";
-import type { AnalyzeResult, Flag } from "@/lib/analysis-engine/types";
+import type { AnalyzeResult, Flag, RedLine } from "@/lib/analysis-engine/types";
 
 type Status = "idle" | "parsing" | "analyzing" | "done" | "error";
 
@@ -56,12 +55,22 @@ export default function HomeClient() {
     setStatus("analyzing");
 
     try {
+      const redLinesResponse = await fetch("/api/red-lines");
+      if (!redLinesResponse.ok) {
+        throw new Error(
+          `Failed to load red lines: ${redLinesResponse.status}`
+        );
+      }
+      const { redLines } = (await redLinesResponse.json()) as {
+        redLines: RedLine[];
+      };
+
       const response = await fetch("/home/analyze", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           documentText: text,
-          redLines: STARTER_RED_LINES,
+          redLines,
         }),
       });
 

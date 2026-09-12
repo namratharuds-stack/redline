@@ -1,0 +1,239 @@
+.page {
+  min-height: 100vh;
+  background: var(--color-paper);
+  padding: 24px clamp(20px, 4vw, 64px);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--color-paper-line);
+  margin-bottom: 48px;
+}
+
+.wordmark {
+  font-weight: 800;
+  font-size: 1.1rem;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+  text-decoration: none;
+}
+
+.wordmark span {
+  color: var(--flag-high);
+}
+
+.navLink {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 0.2em;
+  transition: text-decoration-color 0.15s ease;
+}
+
+.navLink:hover {
+  text-decoration-color: currentColor;
+}
+
+.main {
+  max-width: 640px;
+  margin-bottom: 40px;
+}
+
+.clientSection {
+  max-width: 720px;
+}
+
+.heading {
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: clamp(1.6rem, 2.6vw, 2.1rem);
+  line-height: 1.18;
+  letter-spacing: -0.015em;
+  margin: 0 0 12px;
+  color: var(--color-ink);
+}
+
+.body {
+  color: var(--color-ink-soft);
+  font-size: 1rem;
+  line-height: 1.55;
+  margin: 0;
+  max-width: 62ch;
+}
+
+.statusText {
+  color: var(--color-ink-soft);
+  font-size: 1rem;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Shared card look: DESIGN.md "Cards / Containers" tokens. */
+.card,
+.addForm {
+  background: #fbf8f0;
+  border: 1px solid var(--color-paper-line);
+  border-radius: 4px;
+  padding: 24px;
+  box-shadow: 0 8px 18px -14px rgba(43, 43, 40, 0.5);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: box-shadow 0.15s ease;
+}
+
+.card:hover,
+.card:focus-within {
+  box-shadow: 0 12px 22px -12px rgba(43, 43, 40, 0.55);
+}
+
+.cardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.categoryLabel {
+  font-family: var(--font-stamp);
+  font-size: 0.72rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+  background: var(--badge-bg);
+  border: 1px solid var(--color-paper-line);
+  border-radius: 999px;
+  padding: 5px 11px;
+  white-space: nowrap;
+}
+
+.cardActions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.description {
+  color: var(--color-ink);
+  font-size: 0.98rem;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.cardLabel {
+  font-family: var(--font-stamp);
+  font-size: 0.72rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+  margin: 0 0 4px;
+}
+
+.editForm,
+.addForm {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.fieldLabel {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--color-ink);
+  margin-top: 6px;
+}
+
+.select,
+.textarea {
+  font: inherit;
+  font-size: 0.95rem;
+  color: var(--color-ink);
+  background: var(--color-paper-deep);
+  border: 1px solid var(--color-paper-line);
+  border-radius: 4px;
+  padding: 10px 12px;
+  resize: vertical;
+}
+
+.select:focus-visible,
+.textarea:focus-visible {
+  outline: 2.5px solid var(--focus-ring);
+  outline-offset: 1px;
+}
+
+.fieldError {
+  color: var(--flag-high);
+  font-size: 0.88rem;
+  margin: 0;
+}
+
+.primaryButton {
+  align-self: flex-start;
+  background: var(--color-ink);
+  color: var(--color-paper);
+  border: none;
+  border-radius: 3px;
+  padding: 12px 22px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 10px 24px -12px rgba(43, 43, 40, 0.55);
+  transition: background-color 0.15s ease, box-shadow 0.15s ease,
+    transform 0.15s ease;
+}
+
+.primaryButton:hover:not(:disabled) {
+  background: #46443d;
+  box-shadow: 0 14px 30px -12px rgba(43, 43, 40, 0.6);
+  transform: translateY(-1px);
+}
+
+.primaryButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.textButton {
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--color-ink-soft);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 0.2em;
+  transition: text-decoration-color 0.15s ease;
+}
+
+.textButton:hover:not(:disabled) {
+  text-decoration-color: currentColor;
+}
+
+.textButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

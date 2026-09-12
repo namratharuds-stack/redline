@@ -2,7 +2,7 @@
 // .scratch/redline-v1/red-line-categories.md. Keys are what code/fixtures
 // use; these labels are what a user sees.
 
-const CATEGORY_LABELS: Record<string, string> = {
+export const CATEGORY_LABELS: Record<string, string> = {
   arbitration: "Arbitration / class-action waiver",
   auto_renewal: "Auto-renewal",
   personal_guarantee: "Personal guarantee",
@@ -15,6 +15,11 @@ const CATEGORY_LABELS: Record<string, string> = {
   early_termination: "Early termination penalty",
   data_privacy: "Data/privacy rights grab",
 };
+
+/** The 11 canonical red-line category keys, in the order defined above.
+ * Used to validate a custom red line's category (ticket 04) against the
+ * fixed list in .scratch/redline-v1/red-line-categories.md. */
+export const CANONICAL_CATEGORY_KEYS = Object.keys(CATEGORY_LABELS);
 
 /** The display label for a category key, falling back to a humanized
  * version of the key itself for a category outside the canonical 11 (should
