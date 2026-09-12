@@ -5,6 +5,46 @@ finished 2026-09-12. All 10 tickets in `.scratch/redline-v1/issues/` are
 done. Read this whole file before doing anything else — it says exactly
 what's real, what's stubbed by necessity, and what you need to do by hand.
 
+## Session 2 update (2026-09-12) — environment is now live
+
+After the unattended build finished, a real Supabase project and a real
+OpenRouter key were connected in a follow-up session. **Both are now
+verified working, not just built:**
+
+- A real Supabase project (`kaaqlfdqfnzguxfcyvlp.supabase.co`) is wired into
+  `.env.local`. Both migrations (`red_lines`, `documents`) were run against
+  it via the Supabase SQL Editor and confirmed present (`GET` on both tables
+  via the REST API returns `200 []` for an anon request — RLS is active,
+  not just written).
+- Sign-up was tested directly against the live project (a real HTTP call to
+  `/auth/v1/signup`) and returned a real user with a confirmation email
+  queued — the "Failed to fetch" error originally reported is fixed; it was
+  caused by no Supabase project existing yet (the client was hitting a
+  placeholder URL). One throwaway unconfirmed test user
+  (`redline.smoke.test.…@gmail.com`) is sitting in Supabase Auth's user list
+  from this check — harmless, delete it from **Authentication → Users** if
+  you want it tidy.
+- A real `OPENROUTER_API_KEY`/`OPENROUTER_MODEL` (`z-ai/glm-5.3-flash`) is
+  in `.env.local`. `npm run smoke` has now run for real (see below) — this
+  build has real evidence of live model quality, not just fixture-mocked
+  plumbing.
+- `npm run dev` was started and `/`, `/login`, `/signup`, `/home` all
+  responded correctly with no server errors.
+- The `CLAUDE.md` gap noted below ("One thing outside this build's scope")
+  was fixed at your request: the landing-page bullet and humanizer rule are
+  restored and committed (`37cebb1`). Its unrelated punctuation-style diff
+  (colons → em dashes) and the stray `.CLAUDE.md.swp`/`Untitled` files were
+  left alone, as before.
+- A real bug was found and fixed in `scripts/smoke.ts` itself: `tsx` doesn't
+  auto-load `.env.local` the way Next.js does, so the script always reported
+  the keys missing even when they were set. Fixed via Node's
+  `--env-file-if-exists` flag (commit `c9b0e61`).
+
+**Still not done: nothing has been checked in an actual browser.** Every
+verification above was via `curl`/direct API calls, not clicking through the
+UI. Onboarding, upload, flags rendering, Q&A, red-lines editing, and the
+library have never been visually confirmed. Do that next.
+
 ## Status
 
 | Ticket | Status | Notes |
@@ -99,29 +139,32 @@ can be revisited.
    `postinstall` (`scripts/copy-pdf-worker.mjs`) and pointing `workerSrc` at
    that static path instead, bypassing the bundler.
 
-## What could not be verified (no live Supabase project, no OpenRouter key)
+## What could not be verified
 
-- **Real Supabase Auth flows** — signup/login/logout/session-gating middleware
-  redirects. Only the pure redirect-decision functions in
-  `lib/auth/redirect-rules.ts` are unit-tested (17 cases); the actual
-  cookie/session plumbing has never run against a real project.
-- **Supabase persistence and RLS enforcement** for `red_lines` and
-  `documents` — both migrations are hand-reviewed against the same
-  explicit-per-command-policy style, not executed or tested against a live
-  database. In particular, RLS as the *cross-user* guard (rather than just
-  an app-level filter) has never actually been exercised.
-- **`user_metadata` writes** (`onboarded`, `persona`) — same reason; never
-  confirmed a write actually persists or that a later read reflects it.
-- **Live model output quality.** Every test/eval in this build (`npm test`)
-  runs against mocked `fetch` responses built from `tests/fixtures/`, by the
-  spec's own design (the suite must run without live model calls). This
-  proves the *plumbing* is correct — source-citation dropping, severity
-  pass-through, all-11-categories coverage, false-positive suppression — not
-  that a real OpenRouter call produces good summaries, flags, or
-  counter-offers. **No live model call has happened at any point in this
-  build.**
-- **`tests/eval/unsupported-claims.eval.test.ts`** — gated on
-  `OPENROUTER_API_KEY`; shows as *skipped* here, not passing.
+Resolved in Session 2 (see above): a live Supabase project now exists and
+its migrations/RLS are confirmed active; a real sign-up call succeeded; a
+real OpenRouter key/model is connected and `npm run smoke` produced real
+output. What's still genuinely unverified:
+
+- **Session/cookie plumbing through the actual browser UI** — sign-up was
+  verified via a direct API call, not by clicking through `/signup` in a
+  browser and confirming the cookie-based session, the middleware redirect
+  after login, or logout. Only the pure redirect-decision functions in
+  `lib/auth/redirect-rules.ts` are unit-tested (17 cases).
+  `user_metadata` writes (`onboarded`, `persona`) are still unconfirmed to
+  persist/read back correctly — no signed-in browser session has exercised
+  them yet.
+- **RLS as a genuine cross-user guard** — confirmed active for an
+  unauthenticated (anon) request; not yet tested with two different real
+  user accounts to confirm user A truly cannot see/edit user B's rows.
+- **Live model output beyond the one smoke run.** One real `npm run smoke`
+  run against the adhesion-contract fixture looked excellent (11/11
+  categories, 11/11 source sentences verified, specific counter-offers,
+  correct Q&A). That's one document, one run — not a substitute for the
+  eval suite's `tests/eval/unsupported-claims.eval.test.ts` (still gated on
+  a key being present at test time, still shows *skipped* in a plain
+  `npm test` run unless you export the key first) or a broader sample of
+  real documents.
 - **`tests/eval/severity-correlation.test.ts`** — uses the fixture sidecar's
   `expectedSeverityBand` values (written by the fixture-building agent) as an
   explicitly-flagged stand-in for a human-ranked benchmark. Treat a pass as
@@ -131,48 +174,39 @@ can be revisited.
 - **Vercel deployment** — not touched in this build; the app has only been
   built/run locally.
 
-## One thing outside this build's scope, found and left alone
+## Stray files noticed, left alone
 
-`CLAUDE.md` has uncommitted local changes already sitting in the working
-tree before this build started (visible in `git diff -- CLAUDE.md`) — it's
-currently *missing* the landing-page bullet and the humanizer-copy rule that
-`AGENTS.md` already has (see the `Sync AGENTS.md with CLAUDE.md's humanizer
-rule` commit, which implies `CLAUDE.md` had that rule before whatever
-produced this local diff). There's also an untracked `.CLAUDE.md.swp` (a Vim
-swap file) and an untracked `Untitled` file sitting in the repo root. None of
-these were touched, staged, or committed by this build — they look like your
-own in-progress edit, not build output. Worth checking before you next open
-`CLAUDE.md` in an editor, since a stale swap file can offer to recover
-different content than what's on disk.
+An untracked `.CLAUDE.md.swp` (a Vim swap file) and an untracked `Untitled`
+file have been sitting in the repo root since before this build started.
+Neither was touched. Worth checking before you next open `CLAUDE.md` in an
+editor, since a stale swap file can offer to recover different content than
+what's on disk. (`CLAUDE.md` itself still carries one small pre-existing,
+uncommitted, unrelated diff: a few headings use em dashes instead of colons
+in the working tree vs. the last commit — left alone since you only asked
+for the landing-page bullet and humanizer rule back, which are now restored
+and committed.)
 
 ## Commands to run when you sit down
 
-1. `npm install` (picks up everything this build added: Supabase client/SSR,
-   zod, pdfjs-dist, vitest, tsx; also copies the pdfjs worker into `public/`
-   via `postinstall`).
-2. Create a Supabase project, then set in `.env.local`:
-   ```
-   NEXT_PUBLIC_SUPABASE_URL=...
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=...
-   ```
-3. Run the two migrations under `supabase/migrations/` against that project,
-   in filename order (`..._create_red_lines.sql` then
-   `..._create_documents.sql`) — via the Supabase SQL editor or CLI. Review
-   them by hand first; they've never been executed.
-4. Set `OPENROUTER_API_KEY` and `OPENROUTER_MODEL` (a real OpenRouter model
-   id — none is hardcoded anywhere) in `.env.local`.
-5. `npm test` — should still show 110 passed, 1 skipped. If the previously-
-   skipped `tests/eval/unsupported-claims.eval.test.ts` now runs (it will,
-   once `OPENROUTER_API_KEY` is set) and it fails, that's a real finding
-   about live model output, not a build defect — investigate before assuming
-   the check is wrong.
-6. `npm run smoke` — with real credentials this now makes an actual
-   OpenRouter call and prints real flags/summary/counter-offers/answer
-   against the fixture contract. Read the output; this is the first real
-   look anyone has had at live model quality in this whole build.
-7. `npm run dev`, sign up for a real account, and walk through the app by
-   hand: onboarding → a sample or real upload → flags → Q&A → red lines →
-   library. Nothing in this build has been visually checked in a browser —
-   only `npm test`/`npm run build` have run.
-8. When ready, deploy to Vercel (per CLAUDE.md's settled stack) and set the
-   same env vars there.
+Environment is already connected (see Session 2 update) — this is now
+mostly "go use it," not "go set it up":
+
+1. `npm install` if you haven't on this machine (picks up Supabase
+   client/SSR, zod, pdfjs-dist, vitest, tsx; also copies the pdfjs worker
+   into `public/` via `postinstall`).
+2. `npm test` — 110 passed, 1 skipped (the unsupported-claims eval, which
+   only runs live if `OPENROUTER_API_KEY` is exported in the shell running
+   the test command, not just present in `.env.local` — vitest doesn't
+   auto-load that file either).
+3. `npm run smoke` — already verified once with real output; run again any
+   time to eyeball the live pipeline against the fixture contract.
+4. `npm run dev` and actually click through the app: sign up with a real,
+   checkable email address (Supabase requires confirming it — the fake
+   `@gmail.com` test address used in verification never got confirmed and
+   can't log in), confirm via the email, then walk onboarding → a sample or
+   real upload → flags → Q&A → red lines → library. **This has still never
+   been done** — every check so far was via `curl`/API calls, not a browser.
+5. When ready, deploy to Vercel (per CLAUDE.md's settled stack) and set the
+   same four env vars there (`NEXT_PUBLIC_SUPABASE_URL`,
+   `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `OPENROUTER_API_KEY`,
+   `OPENROUTER_MODEL`).
