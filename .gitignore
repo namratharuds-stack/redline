@@ -11,6 +11,10 @@
 /.next/
 /out/
 
+# generated at `npm install` by scripts/copy-pdf-worker.mjs — see that
+# script and lib/document-parsing/parse-document.ts
+/public/pdfjs/
+
 # production
 /build
 /dist

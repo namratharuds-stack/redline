@@ -49,6 +49,11 @@
 
 .main {
   max-width: 640px;
+  margin-bottom: 40px;
+}
+
+.clientSection {
+  max-width: 960px;
 }
 
 .heading {

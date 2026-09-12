@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import HomeClient from "./home-client";
 import styles from "./home.module.css";
 
 export default async function HomePage() {
@@ -26,12 +27,16 @@ export default async function HomePage() {
       </nav>
 
       <main className={styles.main}>
-        <h1 className={styles.heading}>You&rsquo;re in.</h1>
+        <h1 className={styles.heading}>Upload a document to review</h1>
         <p className={styles.body}>
-          Your documents and red lines will show up here once uploading is
-          live.
+          Redline checks it against your red lines and flags what to look at
+          before you sign.
         </p>
       </main>
+
+      <section className={styles.clientSection}>
+        <HomeClient />
+      </section>
     </div>
   );
 }
