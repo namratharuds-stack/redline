@@ -1,0 +1,99 @@
+MASTER CONSULTING SERVICES AGREEMENT
+
+This Master Consulting Services Agreement (this "Agreement") is entered into as of March 3, 2025 (the "Effective Date"), by and between Aurelius Consulting Group, Inc., a Delaware corporation with its principal place of business at 4400 Meridian Parkway, Suite 900, Austin, Texas 78701 ("Company"), and the individual or entity identified on the signature page below ("Contractor"). Company and Contractor are each a "Party" and together the "Parties."
+
+RECITALS
+
+WHEREAS, Company operates a portfolio of client-facing digital products and periodically requires specialized design, engineering, and content services;
+
+WHEREAS, Contractor represents that Contractor possesses the skills, licenses, and equipment necessary to perform such services on an independent basis;
+
+WHEREAS, the Parties desire to set forth the terms under which Contractor will provide services to Company from time to time pursuant to one or more statements of work;
+
+NOW, THEREFORE, in consideration of the mutual covenants contained herein, the Parties agree as follows.
+
+1. TERM AND RENEWAL
+
+1.1 Initial Term. This Agreement begins on the Effective Date and continues for twelve (12) months (the "Initial Term"), unless earlier terminated as provided herein.
+
+1.2 Auto-Renewal. Upon expiration of the Initial Term, this Agreement will automatically renew for successive twelve (12)-month periods unless Contractor delivers written notice of non-renewal, by certified mail only, to Company's registered agent no fewer than ninety (90) and no more than one hundred (100) days prior to the end of the then-current term. Notice sent by email, fax, or delivered to any Company employee other than the registered agent will not be effective to prevent renewal.
+
+2. SERVICES
+
+2.1 Statements of Work. Contractor will perform the services described in one or more statements of work executed by both Parties ("SOWs"), each of which is incorporated into this Agreement by reference.
+
+2.2 Scope Adjustments. Company may, at any time and without additional compensation to Contractor, request reasonable revisions and refinements to any deliverable that Company determines are necessary to conform the deliverable to the applicable SOW's general objectives, and Contractor will incorporate such revisions prior to submitting any invoice for the affected deliverable. Company's determination of what is necessary to meet the general objectives of an SOW is final.
+
+3. FEES, PAYMENT, AND PLATFORM ACCESS
+
+3.1 Fees. Company will pay Contractor the fees set forth in the applicable SOW, invoiced monthly in arrears and payable net sixty (60) days.
+
+3.2 Mandatory Platform License. Contractor is required to maintain an active license to Company's proprietary project-management platform, Aurelius Flow, for the duration of this Agreement in order to submit deliverables and invoices. The monthly licensing fee, deducted directly from Contractor's invoices, is seventy-five dollars ($75.00) during the first year of the Term and will increase on each anniversary of the Effective Date by the greater of five percent (5%) or the trailing twelve-month change in the Consumer Price Index for All Urban Consumers.
+
+4. INTELLECTUAL PROPERTY
+
+4.1 Assignment. Contractor hereby assigns to Company all right, title, and interest in and to any work product, invention, discovery, or other material conceived, created, or reduced to practice by Contractor during the Term, whether or not related to the Services described in any SOW, and whether created using Company's resources or Contractor's own time, tools, and equipment.
+
+4.2 Further Assurances. Contractor will execute any documents Company deems necessary to perfect the assignment described in Section 4.1, at Contractor's own expense.
+
+5. INDEPENDENT CONTRACTOR STATUS; PERSONAL GUARANTEE
+
+5.1 Independent Contractor. Contractor is an independent contractor and not an employee of Company.
+
+5.2 Personal Guarantee. If Contractor performs the Services through a corporate entity, limited liability company, or other business organization, the individual signing this Agreement on Contractor's behalf personally guarantees full payment and performance of all of that entity's obligations to Company under this Agreement, and agrees to be personally liable, without limitation, for any amounts Company determines are owed to it hereunder.
+
+6. RESTRICTIVE COVENANT
+
+6.1 Non-Compete. During the Term and for eighteen (18) months following its expiration or termination for any reason, Contractor will not, directly or indirectly, provide services substantially similar to the Services to any business that Company, in its sole discretion, deems to be a competitor of Company anywhere in the United States, regardless of whether Contractor became aware of such business through the engagement contemplated by this Agreement.
+
+7. CONFIDENTIALITY AND DATA RIGHTS
+
+7.1 Confidentiality. Contractor will hold in confidence and not disclose to any third party any non-public information Contractor learns about Company's business, clients, or products.
+
+7.2 Data Rights. By submitting any deliverable, time record, or communication through Aurelius Flow, Contractor grants Company a perpetual, irrevocable, worldwide, royalty-free license to use, reproduce, analyze, and create derivative works from all such content and associated usage data, including Contractor's browsing and login activity within the platform, for any purpose Company deems appropriate, including training automated systems, and this license survives termination of this Agreement.
+
+8. INDEMNIFICATION
+
+8.1 Contractor Indemnity. Contractor shall indemnify, defend, and hold harmless Company, its officers, directors, and employees, from and against any and all claims, damages, losses, liabilities, and expenses, including reasonable attorneys' fees, arising out of or relating in any way to Contractor's performance of the Services, regardless of whether such claim also alleges negligence, breach, or fault on the part of Company.
+
+9. LIMITATION OF LIABILITY
+
+9.1 Cap on Company Liability. Company's total cumulative liability to Contractor arising out of or relating to this Agreement, whether in contract, tort, or otherwise, shall not exceed the total fees paid by Company to Contractor in the thirty (30) days immediately preceding the event giving rise to the claim.
+
+10. TERMINATION
+
+10.1 Termination for Convenience by Company. Company may terminate this Agreement or any SOW at any time, for any reason, upon written notice to Contractor.
+
+10.2 Early Termination by Contractor. If Contractor terminates this Agreement prior to completion of the Initial Term for any reason other than Company's uncured material breach, Contractor will owe Company liquidated damages equal to twenty-five percent (25%) of the aggregate fees remaining under all active SOWs as of the date of termination, which the Parties agree is a reasonable estimate of Company's anticipated administrative and replacement-staffing costs and not a penalty.
+
+11. DISPUTE RESOLUTION
+
+11.1 Binding Arbitration. Any dispute, claim, or controversy arising out of or relating to this Agreement shall be resolved exclusively through final and binding arbitration administered on an individual basis before a single arbitrator, and Contractor waives any right to bring or participate in a class, collective, or representative action against Company in any forum.
+
+12. GENERAL PROVISIONS
+
+12.1 Governing Law. This Agreement is governed by the laws of the State of Delaware, without regard to conflict-of-laws principles.
+
+12.2 Entire Agreement. This Agreement, together with all SOWs, constitutes the entire agreement between the Parties and supersedes all prior negotiations and understandings.
+
+12.3 Severability. If any provision of this Agreement is held unenforceable, the remaining provisions will continue in full force and effect.
+
+12.4 Notices. All notices under this Agreement, other than notices of non-renewal under Section 1.2, may be delivered by email to the addresses on file.
+
+12.5 Assignment. Company may assign this Agreement without Contractor's consent. Contractor may not assign this Agreement without Company's prior written consent.
+
+IN WITNESS WHEREOF, the Parties have executed this Agreement as of the Effective Date.
+
+AURELIUS CONSULTING GROUP, INC.
+
+By: _____________________________
+Name: Marcus T. Whitfield
+Title: VP, Vendor Operations
+Date: _____________________________
+
+CONTRACTOR
+
+By: _____________________________
+Name: _____________________________
+Title: _____________________________
+Date: _____________________________

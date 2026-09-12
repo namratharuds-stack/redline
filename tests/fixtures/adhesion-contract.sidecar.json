@@ -1,0 +1,57 @@
+[
+  {
+    "category": "arbitration",
+    "sourceSentence": "Any dispute, claim, or controversy arising out of or relating to this Agreement shall be resolved exclusively through final and binding arbitration administered on an individual basis before a single arbitrator, and Contractor waives any right to bring or participate in a class, collective, or representative action against Company in any forum.",
+    "expectedSeverityBand": "high"
+  },
+  {
+    "category": "auto_renewal",
+    "sourceSentence": "Upon expiration of the Initial Term, this Agreement will automatically renew for successive twelve (12)-month periods unless Contractor delivers written notice of non-renewal, by certified mail only, to Company's registered agent no fewer than ninety (90) and no more than one hundred (100) days prior to the end of the then-current term.",
+    "expectedSeverityBand": "medium"
+  },
+  {
+    "category": "personal_guarantee",
+    "sourceSentence": "If Contractor performs the Services through a corporate entity, limited liability company, or other business organization, the individual signing this Agreement on Contractor's behalf personally guarantees full payment and performance of all of that entity's obligations to Company under this Agreement, and agrees to be personally liable, without limitation, for any amounts Company determines are owed to it hereunder.",
+    "expectedSeverityBand": "high"
+  },
+  {
+    "category": "scope_creep",
+    "sourceSentence": "Company may, at any time and without additional compensation to Contractor, request reasonable revisions and refinements to any deliverable that Company determines are necessary to conform the deliverable to the applicable SOW's general objectives, and Contractor will incorporate such revisions prior to submitting any invoice for the affected deliverable.",
+    "expectedSeverityBand": "medium"
+  },
+  {
+    "category": "non_compete",
+    "sourceSentence": "During the Term and for eighteen (18) months following its expiration or termination for any reason, Contractor will not, directly or indirectly, provide services substantially similar to the Services to any business that Company, in its sole discretion, deems to be a competitor of Company anywhere in the United States, regardless of whether Contractor became aware of such business through the engagement contemplated by this Agreement.",
+    "expectedSeverityBand": "high"
+  },
+  {
+    "category": "ip_assignment",
+    "sourceSentence": "Contractor hereby assigns to Company all right, title, and interest in and to any work product, invention, discovery, or other material conceived, created, or reduced to practice by Contractor during the Term, whether or not related to the Services described in any SOW, and whether created using Company's resources or Contractor's own time, tools, and equipment.",
+    "expectedSeverityBand": "high"
+  },
+  {
+    "category": "indemnification",
+    "sourceSentence": "Contractor shall indemnify, defend, and hold harmless Company, its officers, directors, and employees, from and against any and all claims, damages, losses, liabilities, and expenses, including reasonable attorneys' fees, arising out of or relating in any way to Contractor's performance of the Services, regardless of whether such claim also alleges negligence, breach, or fault on the part of Company.",
+    "expectedSeverityBand": "high"
+  },
+  {
+    "category": "liability_cap",
+    "sourceSentence": "Company's total cumulative liability to Contractor arising out of or relating to this Agreement, whether in contract, tort, or otherwise, shall not exceed the total fees paid by Company to Contractor in the thirty (30) days immediately preceding the event giving rise to the claim.",
+    "expectedSeverityBand": "medium"
+  },
+  {
+    "category": "fee_escalator",
+    "sourceSentence": "The monthly licensing fee, deducted directly from Contractor's invoices, is seventy-five dollars ($75.00) during the first year of the Term and will increase on each anniversary of the Effective Date by the greater of five percent (5%) or the trailing twelve-month change in the Consumer Price Index for All Urban Consumers.",
+    "expectedSeverityBand": "low"
+  },
+  {
+    "category": "early_termination",
+    "sourceSentence": "If Contractor terminates this Agreement prior to completion of the Initial Term for any reason other than Company's uncured material breach, Contractor will owe Company liquidated damages equal to twenty-five percent (25%) of the aggregate fees remaining under all active SOWs as of the date of termination, which the Parties agree is a reasonable estimate of Company's anticipated administrative and replacement-staffing costs and not a penalty.",
+    "expectedSeverityBand": "high"
+  },
+  {
+    "category": "data_privacy",
+    "sourceSentence": "By submitting any deliverable, time record, or communication through Aurelius Flow, Contractor grants Company a perpetual, irrevocable, worldwide, royalty-free license to use, reproduce, analyze, and create derivative works from all such content and associated usage data, including Contractor's browsing and login activity within the platform, for any purpose Company deems appropriate, including training automated systems, and this license survives termination of this Agreement.",
+    "expectedSeverityBand": "high"
+  }
+]
