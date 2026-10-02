@@ -46,6 +46,17 @@ In the first live run (`npm run smoke`), all 11 planted categories were detected
 
 Next.js on Vercel · Supabase for auth and Postgres with row-level security · model calls through OpenRouter, with the model set by environment variable · `pdfjs-dist` for in-browser PDF parsing · `zod` for output validation · Vitest
 
+## Production settings
+
+Production needs four settings. Each one is set on Vercel (Production) and in `.env.local`. The values are not in this repo.
+
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- `OPENROUTER_API_KEY`
+- `OPENROUTER_MODEL`
+
+Pushing to `main` deploys to production.
+
 ## Run it locally
 
 ```bash
