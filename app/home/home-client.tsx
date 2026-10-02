@@ -96,7 +96,8 @@ export default function HomeClient({
       // (see lib/onboarding/should-show-onboarding.ts). Best-effort: if
       // this write fails, the walkthrough just shows again next visit.
       void markOnboarded();
-    } catch {
+    } catch (error) {
+      console.error("Analyzing the document failed", error);
       setStatus("error");
       setErrorMessage(
         "We couldn't analyze this document just now. Please try again."
@@ -163,6 +164,7 @@ export default function HomeClient({
     try {
       text = await extractDocumentText(file);
     } catch (error) {
+      console.error("Reading the uploaded file failed", error);
       setStatus("error");
       setErrorMessage(
         error instanceof Error

@@ -59,11 +59,13 @@ export async function getOrSeedRedLines(
     description: redLine.description,
   }));
 
+  // No .order() here: on an insert, PostgREST can only order by columns the
+  // insert returns, and created_at isn't one of them. Asking for it fails
+  // with 42703. The seed rows all share one created_at anyway.
   const { data: inserted, error: insertError } = await supabase
     .from("red_lines")
     .insert(seedRows)
-    .select("id, category, description")
-    .order("created_at", { ascending: true });
+    .select("id, category, description");
 
   if (insertError) {
     throw insertError;
