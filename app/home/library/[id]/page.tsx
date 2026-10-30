@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { getDocumentTypeLabel } from "@/lib/documents/document-types";
 import { formatDocumentDate } from "@/lib/documents/format-date";
 import { AnalysisResult } from "@/components/analysis-result";
+import { QaBox } from "@/components/qa-box";
 import type { AnalyzeResult, Flag } from "@/lib/analysis-engine/types";
 import homeClientStyles from "@/app/home/home-client.module.css";
 import styles from "../library.module.css";
@@ -13,6 +14,7 @@ type RouteParams = { params: { id: string } };
 type DocumentDetailRow = {
   id: string;
   document_type: string;
+  document_text: string;
   summary: string;
   flags: Flag[];
   created_at: string;
@@ -42,7 +44,7 @@ export default async function LibraryDocumentPage({ params }: RouteParams) {
 
   const { data: document, error } = await supabase
     .from("documents")
-    .select("id, document_type, summary, flags, created_at")
+    .select("id, document_type, document_text, summary, flags, created_at")
     .eq("id", params.id)
     .eq("user_id", user.id)
     .single();
@@ -73,12 +75,22 @@ export default async function LibraryDocumentPage({ params }: RouteParams) {
         <h1 className={styles.heading}>Saved analysis</h1>
         <p className={styles.body}>
           This is exactly what Redline found when this document was
-          analyzed. Reopening it doesn&rsquo;t run the analysis again.
+          analyzed. Reopening it doesn&rsquo;t run the analysis again. The
+          document is below, and you can ask questions about it.
         </p>
       </main>
 
       <section className={homeClientStyles.resultState}>
         <AnalysisResult result={result} />
+
+        <div>
+          <p className={homeClientStyles.cardLabel}>Your document</p>
+          <pre className={homeClientStyles.documentPreview}>
+            {row.document_text}
+          </pre>
+        </div>
+
+        <QaBox documentText={row.document_text} />
       </section>
     </div>
   );

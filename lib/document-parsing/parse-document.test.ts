@@ -1,9 +1,38 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import {
+  extractDocumentText,
   getFileExtension,
   hasMeaningfulText,
   isSupportedExtension,
 } from "./parse-document";
+
+vi.mock("pdfjs-dist/legacy/build/pdf.mjs", () => ({
+  GlobalWorkerOptions: {},
+  getDocument: () => ({
+    promise: Promise.reject(new Error("Invalid PDF structure.")),
+  }),
+}));
+
+describe("extractDocumentText", () => {
+  it("says a short file is too short, not unreadable", async () => {
+    await expect(
+      extractDocumentText(new File(["We agree today."], "note.txt"))
+    ).rejects.toThrow(/too short/i);
+  });
+
+  it("still says an empty file has no readable text", async () => {
+    await expect(
+      extractDocumentText(new File(["   \n  "], "empty.txt"))
+    ).rejects.toThrow(/readable text/i);
+  });
+
+  it("replaces the PDF library's error with a message for the reader", async () => {
+    const reading = extractDocumentText(new File(["junk"], "junk.pdf"));
+
+    await expect(reading).rejects.toThrow(/couldn.t read this PDF/i);
+    await expect(reading).rejects.not.toThrow(/Invalid PDF structure/);
+  });
+});
 
 describe("getFileExtension", () => {
   it("returns the lowercased extension", () => {

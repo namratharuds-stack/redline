@@ -19,10 +19,10 @@ const FINDINGS: {
     severity: "high",
     label: "Auto-renewal",
     original:
-      "renews automatically for successive one-year terms unless either party provides written notice of non-renewal at least ninety (90) days prior to the renewal date",
+      "This Agreement renews automatically for successive one-year terms unless either party provides written notice of non-renewal at least ninety (90) days prior to the renewal date",
     suggested:
-      "renews only if both parties confirm in writing at least 30 days before the current term ends",
-    comment: "90-day opt-out window. Most people miss it and get another year.",
+      "This Agreement renews only if both parties confirm in writing at least 30 days before the current term ends",
+    comment: "90-day opt-out window. Miss it and the agreement renews for another year.",
   },
   {
     n: 2,
@@ -99,8 +99,8 @@ export default function LandingPage() {
         <div className={styles.heroCopy}>
           <h1>Redline reads the contract you were about to sign.</h1>
           <p>
-            Upload a contract, lease, or freelance agreement. Redline marks
-            up the risky clauses the way you&rsquo;d mark up a document
+            Upload a contract, lease, freelance agreement, or terms of
+            service. Redline marks up the risky clauses the way you&rsquo;d mark up a document
             yourself: strikethrough on the problem, a suggested replacement,
             and a comment explaining why.
           </p>
@@ -141,7 +141,6 @@ export default function LandingPage() {
               <p className={styles.docTitle}>4. Term and Termination</p>
               {FINDINGS.map((f) => (
                 <p className={styles.docParagraph} key={f.n}>
-                  This Agreement{" "}
                   <span className={styles.del} data-sev={f.severity}>
                     {f.original}
                   </span>{" "}
@@ -224,7 +223,7 @@ export default function LandingPage() {
                 <span className={styles.qaHighlight}>
                   written notice of non-renewal
                 </span>{" "}
-                at least 90 days before the current term ends (Section 4.2).
+                at least 90 days before the current term ends (Section 4).
               </p>
             </div>
             <div className={styles.exchange}>
