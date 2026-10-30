@@ -101,6 +101,10 @@ function buildAnalyzeSystemPrompt(): string {
     "- \"counterOffer\" must be specific alternative language for this exact",
     "  clause, not generic boilerplate.",
     "- \"summary\" must state only what the document's text supports.",
+    "- Do not compare the document with other contracts or call a term unusual,",
+    "  typical, standard, or common in \"summary\" or \"explanation\". Do not say",
+    "  whether the document as a whole is favorable, unfavorable, or safe to sign.",
+    "  Describe what the text says and what it requires of each party.",
     "- If no clause in the document matches any given red line, return an empty",
     "  \"flags\" array — do not force or fabricate a flag.",
   ].join("\n");
@@ -139,6 +143,11 @@ function buildAnswerSystemPrompt(): string {
     "- If the document's text does not address the question, your \"answer\"",
     "  must explicitly say the document does not address the question — do not",
     "  provide a best-effort guess presented as fact.",
+    "- Never say whether the reader should sign, reject, or accept the document,",
+    "  or whether it is safe or a good deal, even when asked for a yes or no. Say",
+    "  that decision is the reader's, then state what the document says about it.",
+    "- Do not compare the document with other contracts or call a term unusual,",
+    "  typical, standard, or common. Describe what the text says.",
   ].join("\n");
 }
 

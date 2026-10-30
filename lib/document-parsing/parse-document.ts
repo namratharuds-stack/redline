@@ -72,13 +72,23 @@ export async function extractDocumentText(file: File): Promise<string> {
 
   const extension = getFileExtension(file.name);
   const text =
-    extension === "pdf" ? await extractPdfText(file) : await file.text();
+    extension === "pdf"
+      ? await extractPdfText(file).catch((error: unknown) => {
+          // The PDF library's own errors aren't written for the reader.
+          console.error("Parsing the PDF failed", error);
+          throw new Error(
+            "We couldn't read this PDF. The file may be damaged or password-protected. Try a different file."
+          );
+        })
+      : await file.text();
 
   if (!hasMeaningfulText(text)) {
     throw new EmptyDocumentTextError(
       extension === "pdf"
         ? "This PDF doesn't have any text we can read. It looks like a scanned image rather than a text document, and Redline can't process scanned documents yet."
-        : "This file doesn't seem to contain any readable text."
+        : text.trim().length > 0
+          ? "This file is too short to review. Upload the full document."
+          : "This file doesn't seem to contain any readable text."
     );
   }
 

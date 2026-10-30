@@ -59,6 +59,14 @@ function mockFetchReturning(content: unknown) {
   return fetchMock;
 }
 
+/** The system prompt from the first request `fetchMock` received. */
+function systemPromptSentTo(fetchMock: ReturnType<typeof mockFetchReturning>) {
+  const body = JSON.parse(fetchMock.mock.calls[0][1].body as string) as {
+    messages: { role: string; content: string }[];
+  };
+  return body.messages.find((m) => m.role === "system")?.content ?? "";
+}
+
 beforeEach(() => {
   vi.stubEnv("OPENROUTER_API_KEY", "test-api-key");
   vi.stubEnv("OPENROUTER_MODEL", "test-model");
@@ -141,6 +149,17 @@ describe("analyzeDocument", () => {
     expect(result.flags).toEqual([]);
   });
 
+  it("tells the model not to compare the document with other contracts or rate it overall", async () => {
+    const fetchMock = mockFetchReturning(buildAnalyzeResponse([], "summary"));
+
+    await analyzeDocument(cleanText, allRedLines);
+
+    const prompt = systemPromptSentTo(fetchMock);
+    expect(prompt).toMatch(/do not compare the document with other contracts/i);
+    expect(prompt).toMatch(/unusual/i);
+    expect(prompt).toMatch(/favorable/i);
+  });
+
   it("throws a clear error when OPENROUTER_API_KEY/OPENROUTER_MODEL are unset", async () => {
     vi.stubEnv("OPENROUTER_API_KEY", "");
     vi.stubEnv("OPENROUTER_MODEL", "");
@@ -163,6 +182,26 @@ describe("answerQuestion", () => {
     const answer = await answerQuestion(adhesionText, "some question");
 
     expect(answer).toBe("some answer text");
+  });
+
+  it("tells the model not to give a verdict on signing", async () => {
+    const fetchMock = mockFetchReturning({ answer: "some answer text" });
+
+    await answerQuestion(adhesionText, "Should I sign this? Yes or no.");
+
+    expect(systemPromptSentTo(fetchMock)).toMatch(
+      /never say whether the reader should sign/i
+    );
+  });
+
+  it("tells the model not to compare the document with other contracts", async () => {
+    const fetchMock = mockFetchReturning({ answer: "some answer text" });
+
+    await answerQuestion(adhesionText, "Is this a good deal?");
+
+    const prompt = systemPromptSentTo(fetchMock);
+    expect(prompt).toMatch(/do not compare the document with other contracts/i);
+    expect(prompt).toMatch(/unusual/i);
   });
 
   it("throws a clear error when OPENROUTER_API_KEY/OPENROUTER_MODEL are unset", async () => {

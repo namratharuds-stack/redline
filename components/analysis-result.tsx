@@ -4,6 +4,7 @@
 // for why this reuses home-client's CSS module rather than duplicating it.
 import styles from "@/app/home/home-client.module.css";
 import type { AnalyzeResult } from "@/lib/analysis-engine/types";
+import { sortFlagsBySeverity } from "@/lib/documents/sort-flags-by-severity";
 import { FlagRow } from "./flag-row";
 
 export function AnalysisResult({ result }: { result: AnalyzeResult }) {
@@ -20,7 +21,7 @@ export function AnalysisResult({ result }: { result: AnalyzeResult }) {
         </div>
       ) : (
         <ul className={styles.flagsList}>
-          {result.flags.map((flag, index) => (
+          {sortFlagsBySeverity(result.flags).map((flag, index) => (
             <FlagRow key={`${flag.category}-${index}`} flag={flag} />
           ))}
         </ul>
